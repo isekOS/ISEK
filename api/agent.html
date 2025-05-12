@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../" lang="English" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" media="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Agent Module | ISEK 0.1 documentation</title>
+<meta content="Agent Module | ISEK 0.1 documentation" property="og:title"/>
+<meta content="Agent Module | ISEK 0.1 documentation" name="twitter:title"/>
+<link href="../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="llm.html" rel="next" title="Large Language Model"/>
+<link href="core.html" rel="prev" title="Core Components"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../index.html"><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">ISEK 0.1 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" aria-label="Color theme switcher" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../index.html"><span class="font-bold text-clip whitespace-nowrap">ISEK 0.1 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../user_guide/index.html">User Guide<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/concepts.html">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/agents.html">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="index.html">API Reference<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core Components</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Agent Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="llm.html">Large Language Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="embedding.html">Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html">Util</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../index.html">
+<span class="hidden md:inline">ISEK 0.1 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">API Reference</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Agent Module</span>
+</nav>
+<div id="content" role="main">
+<section id="module-isek.agent.abstract_agent">
+<span id="agent-module"></span><h1>Agent Module<a class="headerlink" href="#module-isek.agent.abstract_agent" title="Link to this heading"><span>#</span></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="isek.agent.abstract_agent.AbstractAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isek.agent.abstract_agent.</span></span><span class="sig-name descname"><span class="pre">AbstractAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persona</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#isek.agent.persona.Persona" title="isek.agent.persona.Persona"><span class="pre">Persona</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AbstractModel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tools</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><span class="pre">Callable</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deepthink_enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/agent/abstract_agent.html#AbstractAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.abstract_agent.AbstractAgent" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.abstract_agent.AbstractAgent'"><span>#</span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>An abstract base class for creating intelligent agents.</p>
+<p>This class provides a foundational structure for agents, including
+persona management, interaction with language models, memory,
+and tool usage.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.abstract_agent.AbstractAgent.build">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">daemon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/agent/abstract_agent.html#AbstractAgent.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.abstract_agent.AbstractAgent.build" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.abstract_agent.AbstractAgent.build'"><span>#</span></a></dt>
+<dd><p>Abstract method to build or set up the agent.</p>
+<p>This method should be implemented by subclasses to perform any
+necessary initialization or setup before the agent starts running.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>daemon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) -- If True, the agent might be set up to run as a daemon process.
+Defaults to False.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.abstract_agent.AbstractAgent.decompose_task">
+<span class="sig-name descname"><span class="pre">decompose_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/abstract_agent.html#AbstractAgent.decompose_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.abstract_agent.AbstractAgent.decompose_task" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.abstract_agent.AbstractAgent.decompose_task'"><span>#</span></a></dt>
+<dd><p>Decomposes a given command or task into a list of subtasks using the LLM.</p>
+<p>This method prompts the language model to break down a complex task
+into a list of high-level subtasks. The subtasks are expected to be
+returned by the model as a Python list string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>command</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The command or task to be decomposed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string representation of a list of subtasks
+(e.g., '["Subtask 1", "Subtask 2"]').</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.abstract_agent.AbstractAgent.hearbeat">
+<span class="sig-name descname"><span class="pre">hearbeat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/agent/abstract_agent.html#AbstractAgent.hearbeat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.abstract_agent.AbstractAgent.hearbeat" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.abstract_agent.AbstractAgent.hearbeat'"><span>#</span></a></dt>
+<dd><p>Executes a heartbeat cycle for the agent.</p>
+<p>This function is intended to be called periodically to keep the agent
+active or to perform routine tasks when no explicit input is given.
+It calls the <a class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent.run" title="isek.agent.abstract_agent.AbstractAgent.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method with no input.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.abstract_agent.AbstractAgent.response">
+<span class="sig-name descname"><span class="pre">response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/abstract_agent.html#AbstractAgent.response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.abstract_agent.AbstractAgent.response" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.abstract_agent.AbstractAgent.response'"><span>#</span></a></dt>
+<dd><p>Generates a response to the given input.</p>
+<p>This method orchestrates the agent's core logic:</p>
+<ol class="arabic simple">
+<li><p>Logs the trigger (input or heartbeat).</p></li>
+<li><p>Stores the user input in memory (if provided).</p></li>
+<li><p>Builds prompt templates incorporating persona, system instructions, tools, and conversation history.</p></li>
+<li><p>Optionally performs a "deep think" step to decompose the task.</p></li>
+<li><p>Enters a loop to interact with the language model:
+a. Sends the current messages and available tools to the model.
+b. Appends the model's response to the message history.
+c. If the response contains content, stores it in memory.
+d. If there are no tool calls, returns the content.
+e. If there are tool calls, executes each tool, appends the result to messages, and continues the loop.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- User instructions or environment signals, such as text.
+The method internally handles cases where <cite>input</cite> might be None or empty,
+though its type hint is <cite>str</cite>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agent's textual response to the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.abstract_agent.AbstractAgent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/abstract_agent.html#AbstractAgent.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.abstract_agent.AbstractAgent.run" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.abstract_agent.AbstractAgent.run'"><span>#</span></a></dt>
+<dd><p>Runs a single cycle of the agent's operation.</p>
+<p>The agent processes the input, generates a response, and logs the interaction.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The type hint for the return value is <code class="docutils literal notranslate"><span class="pre">None</span></code>, but the implementation
+returns a string response. The docstring reflects the implementation.
+Consider updating the type hint to <code class="docutils literal notranslate"><span class="pre">-&gt;</span> <span class="pre">str</span></code> for consistency.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) -- User instructions or environment signals, such as text.
+Defaults to None.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agent's response to the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.abstract_agent.AbstractAgent.run_cli">
+<span class="sig-name descname"><span class="pre">run_cli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/agent/abstract_agent.html#AbstractAgent.run_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.abstract_agent.AbstractAgent.run_cli" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.abstract_agent.AbstractAgent.run_cli'"><span>#</span></a></dt>
+<dd><p>Runs the agent in a command-line interface (CLI) mode.</p>
+<p>This method continuously prompts the user for input and processes it
+using the <a class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent.run" title="isek.agent.abstract_agent.AbstractAgent.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method until the user types "exit".</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class" id="module-isek.agent.distributed_agent">
+<dt class="sig sig-object py" id="isek.agent.distributed_agent.DistributedAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isek.agent.distributed_agent.</span></span><span class="sig-name descname"><span class="pre">DistributedAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/agent/distributed_agent.html#DistributedAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.distributed_agent.DistributedAgent" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.distributed_agent.DistributedAgent'"><span>#</span></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent" title="isek.agent.abstract_agent.AbstractAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractAgent</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></p>
+<p>Represents an agent that operates within a distributed network of nodes.</p>
+<p>This class extends <a class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent" title="isek.agent.abstract_agent.AbstractAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractAgent</span></code></a> with capabilities
+from <code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code>, allowing it to communicate and interact
+with other nodes in a peer-to-peer or distributed fashion. It uses its persona
+to define its identity and introduction within the network.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.distributed_agent.DistributedAgent.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">daemon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/distributed_agent.html#DistributedAgent.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.distributed_agent.DistributedAgent.build" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.distributed_agent.DistributedAgent.build'"><span>#</span></a></dt>
+<dd><p>Builds and starts the server component of the distributed agent.</p>
+<p>If <cite>daemon</cite> is <cite>False</cite>, the server is built and run in the current thread,
+potentially blocking further execution. If <cite>daemon</cite> is <cite>True</cite>, the server
+is started in a separate daemon thread, allowing the main program to continue.</p>
+<p>This method typically calls <cite>self.build_server()</cite> from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code>
+base class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>daemon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) -- If <cite>True</cite>, run the server in a daemon thread. Defaults to <cite>False</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.distributed_agent.DistributedAgent.build_node_id">
+<span class="sig-name descname"><span class="pre">build_node_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/distributed_agent.html#DistributedAgent.build_node_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.distributed_agent.DistributedAgent.build_node_id" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.distributed_agent.DistributedAgent.build_node_id'"><span>#</span></a></dt>
+<dd><p>Generates the unique identifier for this node in the distributed network.</p>
+<p>The node ID is derived from the agent's persona name. This method
+likely overrides a method from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code> base class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The unique node identifier.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.distributed_agent.DistributedAgent.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/agent/distributed_agent.html#DistributedAgent.metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.distributed_agent.DistributedAgent.metadata" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.distributed_agent.DistributedAgent.metadata'"><span>#</span></a></dt>
+<dd><p>Provides metadata about this agent/node.</p>
+<p>This metadata can be shared with other nodes in the network to identify
+and describe this agent. It includes the agent's name and introduction.
+This method likely overrides a method from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code> base class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing metadata, specifically "name" and "intro".</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.distributed_agent.DistributedAgent.on_message">
+<span class="sig-name descname"><span class="pre">on_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/distributed_agent.html#DistributedAgent.on_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.distributed_agent.DistributedAgent.on_message" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.distributed_agent.DistributedAgent.on_message'"><span>#</span></a></dt>
+<dd><p>Handles incoming messages from other nodes in the network.</p>
+<p>This method is a callback invoked by the <code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code>
+infrastructure when a message is received. It logs the message and then
+processes it using the agent's main <a class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent.run" title="isek.agent.abstract_agent.AbstractAgent.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> logic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>) -- The identifier of the sending node. The exact type depends
+on the node implementation.</p></li>
+<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The content of the message received.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agent's response to the message, or <cite>None</cite> if the <cite>run</cite> method
+(or its overridden version) returns <cite>None</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.distributed_agent.DistributedAgent.search_partners">
+<span class="sig-name descname"><span class="pre">search_partners</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/distributed_agent.html#DistributedAgent.search_partners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.distributed_agent.DistributedAgent.search_partners" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.distributed_agent.DistributedAgent.search_partners'"><span>#</span></a></dt>
+<dd><p>Searches for suitable partner nodes in the network to help answer a query.</p>
+<p>This method is used when the agent determines it might lack the necessary
+knowledge or capabilities to handle a query on its own.
+It first retrieves a list of potential nodes based on a vector search
+(using <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_nodes_by_vector()</span></code>) and then uses
+the language model to select the single best-fitting partner from this list
+based on the query and the partners' introductions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The query or task for which partners are being sought.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string containing the name, node_id, and reason for selecting
+the best-fitting partner, formatted as "name: XXX, node_id: XXX, Reason: XXX".
+Returns an empty string or an error message if no suitable partner is found or
+if the LLM call fails.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class" id="module-isek.agent.memory">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isek.agent.memory.</span></span><span class="sig-name descname"><span class="pre">AgentMemory</span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory'"><span>#</span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Manages the complete cognitive state of an agent.</p>
+<p>This includes working memory for recent interactions, a long-term knowledge
+store, a queue for scheduled tasks, and internal state variables that
+track the agent's status and goals.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.create_task">
+<span class="sig-name descname"><span class="pre">create_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.create_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.create_task" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.create_task'"><span>#</span></a></dt>
+<dd><p>Creates a new task and adds it to the task queue.</p>
+<p>Each task is assigned a unique ID and includes its description,
+creation timestamp, completion status, and priority.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task_description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- A description of the task to be performed.</p></li>
+<li><p><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) -- The priority of the task (e.g., higher number for higher priority).
+Defaults to 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The unique ID of the created task.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.generate_timestamp">
+<span class="sig-name descname"><span class="pre">generate_timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.generate_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.generate_timestamp" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.generate_timestamp'"><span>#</span></a></dt>
+<dd><p>Generates a current timestamp string.</p>
+<p>The format is "YYYY-MM-DD HH:MM:SS".</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current timestamp as a formatted string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.generate_unique_id">
+<span class="sig-name descname"><span class="pre">generate_unique_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.generate_unique_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.generate_unique_id" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.generate_unique_id'"><span>#</span></a></dt>
+<dd><p>Generates a short unique ID.</p>
+<p>The ID is the first 8 characters of a UUID version 4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A unique 8-character string identifier.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.get_all_knowledge_topics">
+<span class="sig-name descname"><span class="pre">get_all_knowledge_topics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.get_all_knowledge_topics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.get_all_knowledge_topics" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.get_all_knowledge_topics'"><span>#</span></a></dt>
+<dd><p>Retrieves a list of all topics currently in the knowledge store.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of all knowledge topics.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.get_all_state_variables">
+<span class="sig-name descname"><span class="pre">get_all_state_variables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.get_all_state_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.get_all_state_variables" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.get_all_state_variables'"><span>#</span></a></dt>
+<dd><p>Retrieves all current state variables and their values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing all state variables.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.get_all_tasks">
+<span class="sig-name descname"><span class="pre">get_all_tasks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.get_all_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.get_all_tasks" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.get_all_tasks'"><span>#</span></a></dt>
+<dd><p>Retrieves all tasks from the queue, both pending and completed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of all tasks, where keys are task IDs and
+values are dictionaries of task details.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.get_pending_tasks">
+<span class="sig-name descname"><span class="pre">get_pending_tasks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.get_pending_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.get_pending_tasks" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.get_pending_tasks'"><span>#</span></a></dt>
+<dd><p>Retrieves all tasks that are currently not marked as completed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of pending tasks, where keys are task IDs and
+values are dictionaries of task details.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.get_recent_memory_items">
+<span class="sig-name descname"><span class="pre">get_recent_memory_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.get_recent_memory_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.get_recent_memory_items" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.get_recent_memory_items'"><span>#</span></a></dt>
+<dd><p>Retrieves the most recent items from working memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) -- The maximum number of recent items to retrieve. Defaults to 4.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of the most recent memory items, up to <cite>count</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.get_state_variable">
+<span class="sig-name descname"><span class="pre">get_state_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">T</span></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.get_state_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.get_state_variable" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.get_state_variable'"><span>#</span></a></dt>
+<dd><p>Retrieves the value of a state variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The name of the state variable to retrieve.</p></li>
+<li><p><strong>default</strong> (<em>T</em>) -- The default value to return if the variable_name is not found.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value of the state variable, or the default value if not found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><em>Union</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>, T]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.knowledge_interaction">
+<span class="sig-name descname"><span class="pre">knowledge_interaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.knowledge_interaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.knowledge_interaction" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.knowledge_interaction'"><span>#</span></a></dt>
+<dd><p>Manages interactions with the agent's knowledge store.</p>
+<p>Allows querying for existing knowledge or inserting new knowledge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The action to perform: "query" or "insert".</p></li>
+<li><p><strong>content</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- For "query", this is the topic to search for.
+For "insert", this is the content to store (also used as topic currently).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string confirming the action or the result of the query.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.log_operation">
+<span class="sig-name descname"><span class="pre">log_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operation_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">details</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.log_operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.log_operation" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.log_operation'"><span>#</span></a></dt>
+<dd><p>Logs a memory operation using the configured logger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>operation_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The name of the memory operation performed (e.g., "set_state_variable").</p></li>
+<li><p><strong>details</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- Specific details about the operation (e.g., variable name and value).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.mark_task_completed">
+<span class="sig-name descname"><span class="pre">mark_task_completed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.mark_task_completed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.mark_task_completed" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.mark_task_completed'"><span>#</span></a></dt>
+<dd><p>Marks a specified task in the queue as completed.</p>
+<p>Sets the 'completed' flag to True and records the completion timestamp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>task_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The ID of the task to mark as completed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>True</cite> if the task was found and marked completed, <cite>False</cite> otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.retrieve_knowledge">
+<span class="sig-name descname"><span class="pre">retrieve_knowledge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.retrieve_knowledge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.retrieve_knowledge" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.retrieve_knowledge'"><span>#</span></a></dt>
+<dd><p>Retrieves knowledge content associated with a specific topic.</p>
+<p>Searches the existing knowledge store for an item matching the given topic.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The original docstring mentioned a <cite>generator_func</cite> parameter,
+which is not present in the method signature. This version reflects
+the current signature.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>topic</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The topic to retrieve knowledge about.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The content of the knowledge item if found, otherwise <cite>None</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.scheduling">
+<span class="sig-name descname"><span class="pre">scheduling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finished</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.scheduling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.scheduling" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.scheduling'"><span>#</span></a></dt>
+<dd><p>Manages the agent's task schedule.</p>
+<p>Allows adding new tasks, marking tasks as complete, or fetching all tasks.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <cite>finished</cite> parameter is present in the signature but not currently used.
+In the "complete" option, <cite>task_id</cite> is used in the return message but refers to
+the local <cite>id</cite> parameter.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>option</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The scheduling action: "add", "complete", or "fetch".</p></li>
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) -- The ID of the task (used for "complete"). Defaults to None.</p></li>
+<li><p><strong>task</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) -- The description of the task (used for "add"). Defaults to None.</p></li>
+<li><p><strong>finished</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) -- This parameter is currently unused. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string confirming the action or providing the fetched schedule.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.set_state_variable">
+<span class="sig-name descname"><span class="pre">set_state_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.set_state_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.set_state_variable" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.set_state_variable'"><span>#</span></a></dt>
+<dd><p>Sets or updates a state variable in the agent's memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The name of the state variable to set or update.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>) -- The new value for the state variable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A confirmation message indicating the variable was set.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.state_interaction">
+<span class="sig-name descname"><span class="pre">state_interaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.state_interaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.state_interaction" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.state_interaction'"><span>#</span></a></dt>
+<dd><p>Manages interactions with the agent's state variables.</p>
+<p>This method allows for updating, inserting (which is equivalent to updating),
+or fetching the agent's state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The action to perform: "update", "insert", or "fetch".</p></li>
+<li><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The name (key) of the state variable.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>) -- The value to set for the state variable (used for "update" and "insert").
+Ignored for "fetch".</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string confirming the action taken or providing the fetched state.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.store_knowledge">
+<span class="sig-name descname"><span class="pre">store_knowledge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.store_knowledge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.store_knowledge" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.store_knowledge'"><span>#</span></a></dt>
+<dd><p>Stores a piece of knowledge in the knowledge store.</p>
+<p>Each knowledge item is associated with a topic and includes the content
+and a creation timestamp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topic</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The topic or title for the knowledge item.</p></li>
+<li><p><strong>content</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The actual content of the knowledge item.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The unique ID of the stored knowledge item.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.memory.AgentMemory.store_memory_item">
+<span class="sig-name descname"><span class="pre">store_memory_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/memory.html#AgentMemory.store_memory_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.memory.AgentMemory.store_memory_item" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.memory.AgentMemory.store_memory_item'"><span>#</span></a></dt>
+<dd><p>Adds an item to the agent's working memory.</p>
+<p>Working memory typically stores recent interactions or temporary thoughts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>content</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The string content to store in working memory.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A confirmation message.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class" id="module-isek.agent.persona">
+<dt class="sig sig-object py" id="isek.agent.persona.Persona">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isek.agent.persona.</span></span><span class="sig-name descname"><span class="pre">Persona</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lore</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">knowledge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">routine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/agent/persona.html#Persona"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.persona.Persona" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.persona.Persona'"><span>#</span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Represents the identity, characteristics, and background of an agent.</p>
+<p>A persona defines how an agent behaves, its knowledge base, its mission,
+and its typical routines or operational procedures.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.persona.Persona.default">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#isek.agent.persona.Persona" title="isek.agent.persona.Persona"><span class="pre">Persona</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/persona.html#Persona.default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.persona.Persona.default" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.persona.Persona.default'"><span>#</span></a></dt>
+<dd><p>Creates a default Persona instance.</p>
+<p>This persona is a general-purpose "Helper" with predefined attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A default Persona instance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#isek.agent.persona.Persona" title="isek.agent.persona.Persona">Persona</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.persona.Persona.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#isek.agent.persona.Persona" title="isek.agent.persona.Persona"><span class="pre">Persona</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/persona.html#Persona.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.persona.Persona.from_json" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.persona.Persona.from_json'"><span>#</span></a></dt>
+<dd><p>Creates a Persona instance from a dictionary of data.</p>
+<p>The dictionary keys should correspond to the Persona's constructor parameters
+(<cite>name</cite>, <cite>bio</cite>, <cite>lore</cite>, <cite>knowledge</cite>, <cite>routine</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) -- A dictionary containing the persona attributes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Persona instance created from the provided data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#isek.agent.persona.Persona" title="isek.agent.persona.Persona">Persona</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.13)"><strong>KeyError</strong></a> -- If the <cite>data</cite> dictionary is missing one or more required keys
+(name, bio, lore, knowledge, routine).</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.persona.Persona.load">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#isek.agent.persona.Persona" title="isek.agent.persona.Persona"><span class="pre">Persona</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/persona.html#Persona.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.persona.Persona.load" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.persona.Persona.load'"><span>#</span></a></dt>
+<dd><p>Loads Persona data from a JSON file and creates a Persona instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The file path to the JSON file containing persona data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Persona instance created from the data in the file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#isek.agent.persona.Persona" title="isek.agent.persona.Persona">Persona</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.13)"><strong>FileNotFoundError</strong></a> -- If the specified file path does not exist.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/json.html#json.JSONDecodeError" title="(in Python v3.13)"><strong>json.JSONDecodeError</strong></a> -- If the file content is not valid JSON.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.13)"><strong>KeyError</strong></a> -- If the JSON data is missing required fields for persona creation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class" id="module-isek.agent.single_agent">
+<dt class="sig sig-object py" id="isek.agent.single_agent.SingleAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isek.agent.single_agent.</span></span><span class="sig-name descname"><span class="pre">SingleAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/agent/single_agent.html#SingleAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.single_agent.SingleAgent" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.single_agent.SingleAgent'"><span>#</span></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent" title="isek.agent.abstract_agent.AbstractAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractAgent</span></code></a></p>
+<p>A concrete implementation of an agent that runs as a single, standalone instance.</p>
+<p>This agent type typically interacts via a command-line interface (CLI)
+and does not inherently possess distributed or networked capabilities
+unless explicitly added through its tools or persona logic. It builds upon
+the <a class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent" title="isek.agent.abstract_agent.AbstractAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractAgent</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.single_agent.SingleAgent.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">daemon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/single_agent.html#SingleAgent.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.single_agent.SingleAgent.build" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.single_agent.SingleAgent.build'"><span>#</span></a></dt>
+<dd><p>Builds and starts the single agent, typically by launching its command-line interface.</p>
+<p>If <cite>daemon</cite> is <cite>False</cite> (the default), the agent's CLI
+(<a class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent.run_cli" title="isek.agent.abstract_agent.AbstractAgent.run_cli"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_cli()</span></code></a>)
+is run in the current thread, which will block further execution in that thread
+until the CLI is exited.</p>
+<p>If <cite>daemon</cite> is <cite>True</cite>, the CLI is started in a separate daemon thread,
+allowing the main program to continue executing while the agent runs
+in the background.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>daemon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) -- If <cite>True</cite>, run the agent's CLI in a daemon thread.
+Defaults to <cite>False</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class" id="module-isek.agent.toolbox">
+<dt class="sig sig-object py" id="isek.agent.toolbox.ToolBox">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isek.agent.toolbox.</span></span><span class="sig-name descname"><span class="pre">ToolBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persona</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#isek.agent.persona.Persona" title="isek.agent.persona.Persona"><span class="pre">Persona</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/agent/toolbox.html#ToolBox"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.toolbox.ToolBox" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.toolbox.ToolBox'"><span>#</span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Manages a collection of tools (functions) that an agent can use.</p>
+<p>The ToolBox handles the registration of tools, storage of their metadata
+(like descriptions and schemas for LLM interaction), and the execution
+of tool calls based on requests from a language model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.toolbox.ToolBox.execute_tool_call">
+<span class="sig-name descname"><span class="pre">execute_tool_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_call</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">extra_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/toolbox.html#ToolBox.execute_tool_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.toolbox.ToolBox.execute_tool_call" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.toolbox.ToolBox.execute_tool_call'"><span>#</span></a></dt>
+<dd><p>Executes a tool call based on an object from an LLM response.</p>
+<p>The <cite>tool_call</cite> object is expected to have a <cite>function.name</cite> attribute
+for the tool's name and a <cite>function.arguments</cite> attribute containing
+a JSON string of arguments for the tool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_call</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>) -- The tool call object, typically from an LLM's response
+(e.g., OpenAI's tool_calls object). It should have
+<cite>function.name</cite> and <cite>function.arguments</cite> (as JSON string).</p></li>
+<li><p><strong>extra_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>) -- Additional keyword arguments to be passed to the
+tool function, merged with arguments from <cite>tool_call</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string representation of the tool's execution result.
+Returns an error message string if the tool is not found or
+if an error occurs during execution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.toolbox.ToolBox.get_tool">
+<span class="sig-name descname"><span class="pre">get_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/toolbox.html#ToolBox.get_tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.toolbox.ToolBox.get_tool" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.toolbox.ToolBox.get_tool'"><span>#</span></a></dt>
+<dd><p>Retrieves a registered tool function by its name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The name of the tool to retrieve.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The callable tool function if found, otherwise <cite>None</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><em>Callable</em></a>[..., <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.toolbox.ToolBox.get_tool_names">
+<span class="sig-name descname"><span class="pre">get_tool_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/agent/toolbox.html#ToolBox.get_tool_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.toolbox.ToolBox.get_tool_names" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.toolbox.ToolBox.get_tool_names'"><span>#</span></a></dt>
+<dd><p>Gets a list of names of all registered tools.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of tool names.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.toolbox.ToolBox.get_tool_schemas">
+<span class="sig-name descname"><span class="pre">get_tool_schemas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/agent/toolbox.html#ToolBox.get_tool_schemas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.toolbox.ToolBox.get_tool_schemas" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.toolbox.ToolBox.get_tool_schemas'"><span>#</span></a></dt>
+<dd><p>Gets the LLM-compatible schemas for all registered tools.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The original method had an optional <cite>category</cite> parameter which is not
+used in the current implementation as tools are not categorized.
+This docstring reflects the current signature.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of tool schemas. Each schema is a dictionary.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.toolbox.ToolBox.register_tool">
+<span class="sig-name descname"><span class="pre">register_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/toolbox.html#ToolBox.register_tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.toolbox.ToolBox.register_tool" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.toolbox.ToolBox.register_tool'"><span>#</span></a></dt>
+<dd><p>Registers a new callable function as a tool.</p>
+<p>The function's name is used as the tool name. Its docstring is
+used as the description, and an LLM-compatible schema is generated
+based on its signature and type annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>func</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><em>Callable</em></a><em>[</em><em>...</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) -- The function to register as a tool. It should have type hints
+for its parameters and a docstring for its description.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.agent.toolbox.ToolBox.register_tools">
+<span class="sig-name descname"><span class="pre">register_tools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tools</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/agent/toolbox.html#ToolBox.register_tools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.agent.toolbox.ToolBox.register_tools" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.agent.toolbox.ToolBox.register_tools'"><span>#</span></a></dt>
+<dd><p>Registers multiple tools at once.</p>
+<p>Iterates through the provided list of functions and calls
+<a class="reference internal" href="#isek.agent.toolbox.ToolBox.register_tool" title="isek.agent.toolbox.ToolBox.register_tool"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_tool()</span></code></a> for each one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tools</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><em>Callable</em></a><em>[</em><em>...</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em><em>]</em>) -- A list of callable functions to register as tools.</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</section>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#isek.agent.abstract_agent.AbstractAgent'" class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent"><code class="docutils literal notranslate"><span class="pre">AbstractAgent</span></code></a><ul>
+<li><a :data-current="activeSection === '#isek.agent.abstract_agent.AbstractAgent.build'" class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent.build"><code class="docutils literal notranslate"><span class="pre">AbstractAgent.build()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.abstract_agent.AbstractAgent.decompose_task'" class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent.decompose_task"><code class="docutils literal notranslate"><span class="pre">AbstractAgent.decompose_task()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.abstract_agent.AbstractAgent.hearbeat'" class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent.hearbeat"><code class="docutils literal notranslate"><span class="pre">AbstractAgent.hearbeat()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.abstract_agent.AbstractAgent.response'" class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent.response"><code class="docutils literal notranslate"><span class="pre">AbstractAgent.response()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.abstract_agent.AbstractAgent.run'" class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent.run"><code class="docutils literal notranslate"><span class="pre">AbstractAgent.run()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.abstract_agent.AbstractAgent.run_cli'" class="reference internal" href="#isek.agent.abstract_agent.AbstractAgent.run_cli"><code class="docutils literal notranslate"><span class="pre">AbstractAgent.run_cli()</span></code></a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#isek.agent.distributed_agent.DistributedAgent'" class="reference internal" href="#isek.agent.distributed_agent.DistributedAgent"><code class="docutils literal notranslate"><span class="pre">DistributedAgent</span></code></a><ul>
+<li><a :data-current="activeSection === '#isek.agent.distributed_agent.DistributedAgent.build'" class="reference internal" href="#isek.agent.distributed_agent.DistributedAgent.build"><code class="docutils literal notranslate"><span class="pre">DistributedAgent.build()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.distributed_agent.DistributedAgent.build_node_id'" class="reference internal" href="#isek.agent.distributed_agent.DistributedAgent.build_node_id"><code class="docutils literal notranslate"><span class="pre">DistributedAgent.build_node_id()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.distributed_agent.DistributedAgent.metadata'" class="reference internal" href="#isek.agent.distributed_agent.DistributedAgent.metadata"><code class="docutils literal notranslate"><span class="pre">DistributedAgent.metadata()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.distributed_agent.DistributedAgent.on_message'" class="reference internal" href="#isek.agent.distributed_agent.DistributedAgent.on_message"><code class="docutils literal notranslate"><span class="pre">DistributedAgent.on_message()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.distributed_agent.DistributedAgent.search_partners'" class="reference internal" href="#isek.agent.distributed_agent.DistributedAgent.search_partners"><code class="docutils literal notranslate"><span class="pre">DistributedAgent.search_partners()</span></code></a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory'" class="reference internal" href="#isek.agent.memory.AgentMemory"><code class="docutils literal notranslate"><span class="pre">AgentMemory</span></code></a><ul>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.create_task'" class="reference internal" href="#isek.agent.memory.AgentMemory.create_task"><code class="docutils literal notranslate"><span class="pre">AgentMemory.create_task()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.generate_timestamp'" class="reference internal" href="#isek.agent.memory.AgentMemory.generate_timestamp"><code class="docutils literal notranslate"><span class="pre">AgentMemory.generate_timestamp()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.generate_unique_id'" class="reference internal" href="#isek.agent.memory.AgentMemory.generate_unique_id"><code class="docutils literal notranslate"><span class="pre">AgentMemory.generate_unique_id()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.get_all_knowledge_topics'" class="reference internal" href="#isek.agent.memory.AgentMemory.get_all_knowledge_topics"><code class="docutils literal notranslate"><span class="pre">AgentMemory.get_all_knowledge_topics()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.get_all_state_variables'" class="reference internal" href="#isek.agent.memory.AgentMemory.get_all_state_variables"><code class="docutils literal notranslate"><span class="pre">AgentMemory.get_all_state_variables()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.get_all_tasks'" class="reference internal" href="#isek.agent.memory.AgentMemory.get_all_tasks"><code class="docutils literal notranslate"><span class="pre">AgentMemory.get_all_tasks()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.get_pending_tasks'" class="reference internal" href="#isek.agent.memory.AgentMemory.get_pending_tasks"><code class="docutils literal notranslate"><span class="pre">AgentMemory.get_pending_tasks()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.get_recent_memory_items'" class="reference internal" href="#isek.agent.memory.AgentMemory.get_recent_memory_items"><code class="docutils literal notranslate"><span class="pre">AgentMemory.get_recent_memory_items()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.get_state_variable'" class="reference internal" href="#isek.agent.memory.AgentMemory.get_state_variable"><code class="docutils literal notranslate"><span class="pre">AgentMemory.get_state_variable()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.knowledge_interaction'" class="reference internal" href="#isek.agent.memory.AgentMemory.knowledge_interaction"><code class="docutils literal notranslate"><span class="pre">AgentMemory.knowledge_interaction()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.log_operation'" class="reference internal" href="#isek.agent.memory.AgentMemory.log_operation"><code class="docutils literal notranslate"><span class="pre">AgentMemory.log_operation()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.mark_task_completed'" class="reference internal" href="#isek.agent.memory.AgentMemory.mark_task_completed"><code class="docutils literal notranslate"><span class="pre">AgentMemory.mark_task_completed()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.retrieve_knowledge'" class="reference internal" href="#isek.agent.memory.AgentMemory.retrieve_knowledge"><code class="docutils literal notranslate"><span class="pre">AgentMemory.retrieve_knowledge()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.scheduling'" class="reference internal" href="#isek.agent.memory.AgentMemory.scheduling"><code class="docutils literal notranslate"><span class="pre">AgentMemory.scheduling()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.set_state_variable'" class="reference internal" href="#isek.agent.memory.AgentMemory.set_state_variable"><code class="docutils literal notranslate"><span class="pre">AgentMemory.set_state_variable()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.state_interaction'" class="reference internal" href="#isek.agent.memory.AgentMemory.state_interaction"><code class="docutils literal notranslate"><span class="pre">AgentMemory.state_interaction()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.store_knowledge'" class="reference internal" href="#isek.agent.memory.AgentMemory.store_knowledge"><code class="docutils literal notranslate"><span class="pre">AgentMemory.store_knowledge()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.memory.AgentMemory.store_memory_item'" class="reference internal" href="#isek.agent.memory.AgentMemory.store_memory_item"><code class="docutils literal notranslate"><span class="pre">AgentMemory.store_memory_item()</span></code></a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#isek.agent.persona.Persona'" class="reference internal" href="#isek.agent.persona.Persona"><code class="docutils literal notranslate"><span class="pre">Persona</span></code></a><ul>
+<li><a :data-current="activeSection === '#isek.agent.persona.Persona.default'" class="reference internal" href="#isek.agent.persona.Persona.default"><code class="docutils literal notranslate"><span class="pre">Persona.default()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.persona.Persona.from_json'" class="reference internal" href="#isek.agent.persona.Persona.from_json"><code class="docutils literal notranslate"><span class="pre">Persona.from_json()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.persona.Persona.load'" class="reference internal" href="#isek.agent.persona.Persona.load"><code class="docutils literal notranslate"><span class="pre">Persona.load()</span></code></a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#isek.agent.single_agent.SingleAgent'" class="reference internal" href="#isek.agent.single_agent.SingleAgent"><code class="docutils literal notranslate"><span class="pre">SingleAgent</span></code></a><ul>
+<li><a :data-current="activeSection === '#isek.agent.single_agent.SingleAgent.build'" class="reference internal" href="#isek.agent.single_agent.SingleAgent.build"><code class="docutils literal notranslate"><span class="pre">SingleAgent.build()</span></code></a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#isek.agent.toolbox.ToolBox'" class="reference internal" href="#isek.agent.toolbox.ToolBox"><code class="docutils literal notranslate"><span class="pre">ToolBox</span></code></a><ul>
+<li><a :data-current="activeSection === '#isek.agent.toolbox.ToolBox.execute_tool_call'" class="reference internal" href="#isek.agent.toolbox.ToolBox.execute_tool_call"><code class="docutils literal notranslate"><span class="pre">ToolBox.execute_tool_call()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.toolbox.ToolBox.get_tool'" class="reference internal" href="#isek.agent.toolbox.ToolBox.get_tool"><code class="docutils literal notranslate"><span class="pre">ToolBox.get_tool()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.toolbox.ToolBox.get_tool_names'" class="reference internal" href="#isek.agent.toolbox.ToolBox.get_tool_names"><code class="docutils literal notranslate"><span class="pre">ToolBox.get_tool_names()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.toolbox.ToolBox.get_tool_schemas'" class="reference internal" href="#isek.agent.toolbox.ToolBox.get_tool_schemas"><code class="docutils literal notranslate"><span class="pre">ToolBox.get_tool_schemas()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.toolbox.ToolBox.register_tool'" class="reference internal" href="#isek.agent.toolbox.ToolBox.register_tool"><code class="docutils literal notranslate"><span class="pre">ToolBox.register_tool()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.agent.toolbox.ToolBox.register_tools'" class="reference internal" href="#isek.agent.toolbox.ToolBox.register_tools"><code class="docutils literal notranslate"><span class="pre">ToolBox.register_tools()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2025, ISEK Team Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.1.3</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../_static/documentation_options.js?v=2ed17a75"></script>
+<script src="../_static/doctools.js?v=9bcbadda"></script>
+<script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../_static/theme.js?v=073f68d9"></script>
+</body>
+</html>

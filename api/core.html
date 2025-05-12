@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../" lang="English" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" media="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Core Components | ISEK 0.1 documentation</title>
+<meta content="Core Components | ISEK 0.1 documentation" property="og:title"/>
+<meta content="Core Components | ISEK 0.1 documentation" name="twitter:title"/>
+<link href="../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="agent.html" rel="next" title="Agent Module"/>
+<link href="index.html" rel="prev" title="API Reference"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../index.html"><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">ISEK 0.1 documentation</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" aria-label="Color theme switcher" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../index.html"><span class="font-bold text-clip whitespace-nowrap">ISEK 0.1 documentation</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../user_guide/index.html">User Guide<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/concepts.html">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/agents.html">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="index.html">API Reference<button @click.prevent.stop="expanded = !expanded" type="button"><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agent.html">Agent Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="llm.html">Large Language Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="embedding.html">Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html">Util</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../index.html">
+<span class="hidden md:inline">ISEK 0.1 documentation</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">API Reference</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Core Components</span>
+</nav>
+<div id="content" role="main">
+<section id="module-isek.isek_center">
+<span id="core-components"></span><h1>Core Components<a class="headerlink" href="#module-isek.isek_center" title="Link to this heading"><span>#</span></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="isek.isek_center.CommonResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isek.isek_center.</span></span><span class="sig-name descname"><span class="pre">CommonResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/isek_center.html#CommonResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_center.CommonResponse" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_center.CommonResponse'"><span>#</span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A helper class to standardize JSON API responses.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_center.CommonResponse.fail">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/isek_center.html#CommonResponse.fail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_center.CommonResponse.fail" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_center.CommonResponse.fail'"><span>#</span></a></dt>
+<dd><p>Creates a standardized failure/error response.</p>
+<p>Commonly used for client errors (e.g., bad request, not found).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The failure message.</p></li>
+<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) -- The error code. Defaults to 400 (Bad Request).</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) -- Optional data payload accompanying the failure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the response dictionary and the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>], <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_center.CommonResponse.success">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">success</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'success'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/isek_center.html#CommonResponse.success"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_center.CommonResponse.success" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_center.CommonResponse.success'"><span>#</span></a></dt>
+<dd><p>Creates a standardized success response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) -- Optional data payload for the success response.</p></li>
+<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) -- The success code. Defaults to 200.</p></li>
+<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The success message. Defaults to 'success'.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the response dictionary and the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>], <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_center.CommonResponse.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/isek_center.html#CommonResponse.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_center.CommonResponse.to_dict" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_center.CommonResponse.to_dict'"><span>#</span></a></dt>
+<dd><p>Converts the CommonResponse instance to a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary representation of the response.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="isek.isek_center.cleanup_expired_nodes">
+<span class="sig-prename descclassname"><span class="pre">isek.isek_center.</span></span><span class="sig-name descname"><span class="pre">cleanup_expired_nodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/isek_center.html#cleanup_expired_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_center.cleanup_expired_nodes" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_center.cleanup_expired_nodes'"><span>#</span></a></dt>
+<dd><p>Periodically removes expired nodes from the <cite>nodes</cite> dictionary.</p>
+<p>This function runs in a separate daemon thread.
+It checks every 5 seconds for nodes whose lease (<cite>expires_at</cite>) has passed.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="isek.isek_center.deregister_node_route">
+<span class="sig-prename descclassname"><span class="pre">isek.isek_center.</span></span><span class="sig-name descname"><span class="pre">deregister_node_route</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/isek_center.html#deregister_node_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_center.deregister_node_route" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_center.deregister_node_route'"><span>#</span></a></dt>
+<dd><p>Deregisters a node from the service.</p>
+<p>Expects a JSON payload with <cite>node_id</cite>.</p>
+<p><strong>Request JSON Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="p">{</span>
+</span><span id="line-2"><span class="w">    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unique_node_identifier"</span>
+</span><span id="line-3"><span class="p">}</span>
+</span></code></pre></div>
+</div>
+<p><strong>Responses:</strong></p>
+<ul class="simple">
+<li><p><strong>200 OK:</strong> Node deregistered successfully.</p></li>
+<li><p><strong>400 Bad Request:</strong> Missing or invalid <cite>node_id</cite>.</p></li>
+<li><p><strong>404 Not Found:</strong> If <cite>node_id</cite> does not exist (alternative to 400 for invalid).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Flask JSON response.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>FlaskResponse</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="isek.isek_center.get_available_nodes_route">
+<span class="sig-prename descclassname"><span class="pre">isek.isek_center.</span></span><span class="sig-name descname"><span class="pre">get_available_nodes_route</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/isek_center.html#get_available_nodes_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_center.get_available_nodes_route" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_center.get_available_nodes_route'"><span>#</span></a></dt>
+<dd><p>Retrieves a list of all currently active (non-expired) registered nodes.</p>
+<p><strong>Responses:</strong></p>
+<ul>
+<li><p><strong>200 OK:</strong> Returns a list of available nodes.
+The response data will be structured as follows:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="p">{</span>
+</span><span id="line-2"><span class="w">    </span><span class="nt">"available_nodes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="line-3"><span class="w">        </span><span class="nt">"node_id_1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="line-4"><span class="w">            </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node_id_1"</span><span class="p">,</span>
+</span><span id="line-5"><span class="w">            </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"host1.example.com"</span><span class="p">,</span>
+</span><span id="line-6"><span class="w">            </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8080</span><span class="p">,</span>
+</span><span id="line-7"><span class="w">            </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"key1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">},</span>
+</span><span id="line-8"><span class="w">            </span><span class="nt">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mf">1678886400.0</span>
+</span><span id="line-9"><span class="w">        </span><span class="p">},</span>
+</span><span id="line-10"><span class="w">        </span><span class="nt">"node_id_2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="line-11"><span class="w">            </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node_id_2"</span><span class="p">,</span>
+</span><span id="line-12"><span class="w">            </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"host2.example.com"</span><span class="p">,</span>
+</span><span id="line-13"><span class="w">            </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8081</span><span class="p">,</span>
+</span><span id="line-14"><span class="w">            </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span id="line-15"><span class="w">            </span><span class="nt">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mf">1678886500.0</span>
+</span><span id="line-16"><span class="w">        </span><span class="p">}</span>
+</span><span id="line-17"><span class="w">    </span><span class="p">}</span>
+</span><span id="line-18"><span class="p">}</span>
+</span></code></pre></div>
+</div>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Flask JSON response containing the available nodes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>FlaskResponse</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="isek.isek_center.main">
+<span class="sig-prename descclassname"><span class="pre">isek.isek_center.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/isek_center.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_center.main" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_center.main'"><span>#</span></a></dt>
+<dd><p>Sets up and runs the Flask application for the Isek Center.</p>
+<p>Initializes a background thread for cleaning up expired node registrations
+and starts the Flask development server.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="isek.isek_center.register_node_route">
+<span class="sig-prename descclassname"><span class="pre">isek.isek_center.</span></span><span class="sig-name descname"><span class="pre">register_node_route</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/isek_center.html#register_node_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_center.register_node_route" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_center.register_node_route'"><span>#</span></a></dt>
+<dd><p>Registers a new node or updates an existing node's registration.</p>
+<p>Expects a JSON payload with <cite>node_id</cite>, <cite>host</cite>, <cite>port</cite>, and optional <cite>metadata</cite>.
+Assigns an expiration time to the node's registration (lease).</p>
+<p><strong>Request JSON Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="p">{</span>
+</span><span id="line-2"><span class="w">    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unique_node_identifier"</span><span class="p">,</span>
+</span><span id="line-3"><span class="w">    </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node_hostname_or_ip"</span><span class="p">,</span>
+</span><span id="line-4"><span class="w">    </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8080</span><span class="p">,</span>
+</span><span id="line-5"><span class="w">    </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value"</span><span class="p">}</span>
+</span><span id="line-6"><span class="p">}</span>
+</span></code></pre></div>
+</div>
+<p><strong>Responses:</strong></p>
+<ul class="simple">
+<li><p><strong>200 OK:</strong> Node registered successfully.</p></li>
+<li><p><strong>400 Bad Request:</strong> Missing required fields (<cite>node_id</cite>, <cite>host</cite>, <cite>port</cite>).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Flask JSON response.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>FlaskResponse</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="isek.isek_center.renew_lease_route">
+<span class="sig-prename descclassname"><span class="pre">isek.isek_center.</span></span><span class="sig-name descname"><span class="pre">renew_lease_route</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/isek/isek_center.html#renew_lease_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_center.renew_lease_route" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_center.renew_lease_route'"><span>#</span></a></dt>
+<dd><p>Renews the lease for an existing registered node.</p>
+<p>Expects a JSON payload with <cite>node_id</cite>. Updates the node's <cite>expires_at</cite> timestamp.</p>
+<p><strong>Request JSON Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="p">{</span>
+</span><span id="line-2"><span class="w">    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unique_node_identifier"</span>
+</span><span id="line-3"><span class="p">}</span>
+</span></code></pre></div>
+</div>
+<p><strong>Responses:</strong></p>
+<ul class="simple">
+<li><p><strong>200 OK:</strong> Lease renewed successfully.</p></li>
+<li><p><strong>400 Bad Request:</strong> Missing or invalid <cite>node_id</cite>.</p></li>
+<li><p><strong>404 Not Found:</strong> If <cite>node_id</cite> does not exist.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Flask JSON response.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>FlaskResponse</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py class" id="module-isek.isek_config">
+<dt class="sig sig-object py" id="isek.isek_config.IsekConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">isek.isek_config.</span></span><span class="sig-name descname"><span class="pre">IsekConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/isek_config.html#IsekConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_config.IsekConfig" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_config.IsekConfig'"><span>#</span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Manages application configuration loaded from a YAML file.</p>
+<p>This class provides a structured way to access configuration values
+and to instantiate various components of the Isek system, such as agents,
+registries, language models (LLMs), and embedding models, based on the
+loaded configuration.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_config.IsekConfig.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/isek_config.html#IsekConfig.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_config.IsekConfig.get" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_config.IsekConfig.get'"><span>#</span></a></dt>
+<dd><p>Retrieves a configuration value using a sequence of keys (path).</p>
+<p>Traverses the nested configuration dictionary. If any key in the path
+is not found, or if the path leads to a <cite>None</cite> value explicitly,
+it returns the <cite>default</cite> value.</p>
+<p>Example: <cite>config.get("agent", "persona", "name", default="Unknown")</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- A sequence of string keys representing the path to the desired value.</p></li>
+<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) -- The value to return if the path is not found or the value is <cite>None</cite>.
+Defaults to <cite>None</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The configuration value if found, otherwise the <cite>default</cite> value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_config.IsekConfig.get_sub_config">
+<span class="sig-name descname"><span class="pre">get_sub_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/isek_config.html#IsekConfig.get_sub_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_config.IsekConfig.get_sub_config" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_config.IsekConfig.get_sub_config'"><span>#</span></a></dt>
+<dd><p>Retrieves a sub-dictionary from the configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) -- The top-level key for the desired sub-configuration dictionary.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The sub-configuration dictionary if the key exists and its value
+is a dictionary, otherwise <cite>None</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_config.IsekConfig.load_agent">
+<span class="sig-name descname"><span class="pre">load_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="agent.html#isek.agent.single_agent.SingleAgent" title="isek.agent.single_agent.SingleAgent"><span class="pre">SingleAgent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="agent.html#isek.agent.distributed_agent.DistributedAgent" title="isek.agent.distributed_agent.DistributedAgent"><span class="pre">DistributedAgent</span></a></span></span><a class="reference internal" href="../_modules/isek/isek_config.html#IsekConfig.load_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_config.IsekConfig.load_agent" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_config.IsekConfig.load_agent'"><span>#</span></a></dt>
+<dd><p>Loads and returns an agent instance (SingleAgent or DistributedAgent)
+based on the configuration.</p>
+<p>Configures the agent with its persona, language model, and, if distributed,
+its network settings (host, port, registry) and embedding model.
+Also initializes the logger based on the 'debug' setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <a class="reference internal" href="agent.html#isek.agent.single_agent.SingleAgent" title="isek.agent.single_agent.SingleAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingleAgent</span></code></a> or
+<a class="reference internal" href="agent.html#isek.agent.distributed_agent.DistributedAgent" title="isek.agent.distributed_agent.DistributedAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistributedAgent</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><em>Union</em></a>[<a class="reference internal" href="agent.html#isek.agent.single_agent.SingleAgent" title="isek.agent.single_agent.SingleAgent">isek.agent.single_agent.SingleAgent</a>, <a class="reference internal" href="agent.html#isek.agent.distributed_agent.DistributedAgent" title="isek.agent.distributed_agent.DistributedAgent">isek.agent.distributed_agent.DistributedAgent</a>]</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> -- If essential configuration for the agent is missing or invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_config.IsekConfig.load_embedding">
+<span class="sig-name descname"><span class="pre">load_embedding</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">AbstractEmbedding</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/isek_config.html#IsekConfig.load_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_config.IsekConfig.load_embedding" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_config.IsekConfig.load_embedding'"><span>#</span></a></dt>
+<dd><p>Loads and returns an embedding model instance based on the configuration.</p>
+<p>Uses an 'embeddings' dispatcher (assumed to be a dictionary or module
+mapping mode names to embedding classes) to instantiate the correct type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of an <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEmbedding</span></code>
+implementation, or <cite>None</cite> if no embedding model is configured or if the mode is "None".</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a>[isek.embedding.abstract_embedding.AbstractEmbedding]</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> -- If the configured embedding mode is not supported or its specific
+configuration is missing/invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_config.IsekConfig.load_etcd_registry">
+<span class="sig-name descname"><span class="pre">load_etcd_registry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">etcd_specific_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="node.html#isek.node.EtcdRegistry" title="isek.node.etcd_registry.EtcdRegistry"><span class="pre">EtcdRegistry</span></a></span></span><a class="reference internal" href="../_modules/isek/isek_config.html#IsekConfig.load_etcd_registry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_config.IsekConfig.load_etcd_registry" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_config.IsekConfig.load_etcd_registry'"><span>#</span></a></dt>
+<dd><p>Loads an EtcdRegistry instance using etcd-specific configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>etcd_specific_config</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) -- A dictionary containing parameters for
+<cite>etcd3.Etcd3Client</cite> (e.g., <cite>host</cite>, <cite>port</cite>)
+and <cite>EtcdRegistry</cite> (e.g., <cite>ttl</cite>, <cite>parent_node_id</cite>).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of <a class="reference internal" href="node.html#isek.node.EtcdRegistry" title="isek.node.etcd_registry.EtcdRegistry"><code class="xref py py-class docutils literal notranslate"><span class="pre">EtcdRegistry</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="node.html#isek.node.EtcdRegistry" title="isek.node.etcd_registry.EtcdRegistry">isek.node.etcd_registry.EtcdRegistry</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> -- If essential etcd configuration is missing or <cite>etcd3.client</cite> fails.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_config.IsekConfig.load_isek_center_registry">
+<span class="sig-name descname"><span class="pre">load_isek_center_registry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isek_center_specific_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="node.html#isek.node.IsekCenterRegistry" title="isek.node.isek_center_registry.IsekCenterRegistry"><span class="pre">IsekCenterRegistry</span></a></span></span><a class="reference internal" href="../_modules/isek/isek_config.html#IsekConfig.load_isek_center_registry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_config.IsekConfig.load_isek_center_registry" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_config.IsekConfig.load_isek_center_registry'"><span>#</span></a></dt>
+<dd><p>Loads an IsekCenterRegistry instance using its specific configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>isek_center_specific_config</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) -- A dictionary containing parameters for
+<a class="reference internal" href="node.html#isek.node.IsekCenterRegistry" title="isek.node.isek_center_registry.IsekCenterRegistry"><code class="xref py py-class docutils literal notranslate"><span class="pre">IsekCenterRegistry</span></code></a>
+(e.g., <cite>host</cite>, <cite>port</cite>).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of <a class="reference internal" href="node.html#isek.node.IsekCenterRegistry" title="isek.node.isek_center_registry.IsekCenterRegistry"><code class="xref py py-class docutils literal notranslate"><span class="pre">IsekCenterRegistry</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="node.html#isek.node.IsekCenterRegistry" title="isek.node.isek_center_registry.IsekCenterRegistry">isek.node.isek_center_registry.IsekCenterRegistry</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_config.IsekConfig.load_llm">
+<span class="sig-name descname"><span class="pre">load_llm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">AbstractModel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/isek/isek_config.html#IsekConfig.load_llm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_config.IsekConfig.load_llm" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_config.IsekConfig.load_llm'"><span>#</span></a></dt>
+<dd><p>Loads and returns a language model (LLM) instance based on the configuration.</p>
+<p>Uses an 'llms' dispatcher (assumed to be a dictionary or module mapping
+mode names to LLM classes) to instantiate the correct LLM type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of an <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractModel</span></code>
+implementation, or <cite>None</cite> if no LLM is configured or if the mode is "None".</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><em>Optional</em></a>[isek.llm.abstract_model.AbstractModel]</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> -- If the configured LLM mode is not supported or its specific
+configuration is missing/invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="isek.isek_config.IsekConfig.load_registry">
+<span class="sig-name descname"><span class="pre">load_registry</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Registry</span></span></span><a class="reference internal" href="../_modules/isek/isek_config.html#IsekConfig.load_registry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.isek_config.IsekConfig.load_registry" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.isek_config.IsekConfig.load_registry'"><span>#</span></a></dt>
+<dd><p>Loads and returns a service registry instance based on the configuration.</p>
+<p>Supports "etcd" or "isek_center" (defaulting to "isek_center" if 'registry.mode' is missing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Registry</span></code> implementation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>isek.node.registry.Registry</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> -- If the registry configuration is missing or invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py function" id="module-isek.cli">
+<dt class="sig sig-object py" id="isek.cli.get_available_examples">
+<span class="sig-prename descclassname"><span class="pre">isek.cli.</span></span><span class="sig-name descname"><span class="pre">get_available_examples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incomplete</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/cli.html#get_available_examples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.cli.get_available_examples" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.cli.get_available_examples'"><span>#</span></a></dt>
+<dd><p>Get available example scripts</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="isek.cli.load_module">
+<span class="sig-prename descclassname"><span class="pre">isek.cli.</span></span><span class="sig-name descname"><span class="pre">load_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/isek/cli.html#load_module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#isek.cli.load_module" title="Link to this definition" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#isek.cli.load_module'"><span>#</span></a></dt>
+<dd><p>Dynamically load module</p>
+</dd></dl>
+</section>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#isek.isek_center.CommonResponse'" class="reference internal" href="#isek.isek_center.CommonResponse"><code class="docutils literal notranslate"><span class="pre">CommonResponse</span></code></a><ul>
+<li><a :data-current="activeSection === '#isek.isek_center.CommonResponse.fail'" class="reference internal" href="#isek.isek_center.CommonResponse.fail"><code class="docutils literal notranslate"><span class="pre">CommonResponse.fail()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_center.CommonResponse.success'" class="reference internal" href="#isek.isek_center.CommonResponse.success"><code class="docutils literal notranslate"><span class="pre">CommonResponse.success()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_center.CommonResponse.to_dict'" class="reference internal" href="#isek.isek_center.CommonResponse.to_dict"><code class="docutils literal notranslate"><span class="pre">CommonResponse.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#isek.isek_center.cleanup_expired_nodes'" class="reference internal" href="#isek.isek_center.cleanup_expired_nodes"><code class="docutils literal notranslate"><span class="pre">cleanup_expired_nodes()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_center.deregister_node_route'" class="reference internal" href="#isek.isek_center.deregister_node_route"><code class="docutils literal notranslate"><span class="pre">deregister_node_route()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_center.get_available_nodes_route'" class="reference internal" href="#isek.isek_center.get_available_nodes_route"><code class="docutils literal notranslate"><span class="pre">get_available_nodes_route()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_center.main'" class="reference internal" href="#isek.isek_center.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_center.register_node_route'" class="reference internal" href="#isek.isek_center.register_node_route"><code class="docutils literal notranslate"><span class="pre">register_node_route()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_center.renew_lease_route'" class="reference internal" href="#isek.isek_center.renew_lease_route"><code class="docutils literal notranslate"><span class="pre">renew_lease_route()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_config.IsekConfig'" class="reference internal" href="#isek.isek_config.IsekConfig"><code class="docutils literal notranslate"><span class="pre">IsekConfig</span></code></a><ul>
+<li><a :data-current="activeSection === '#isek.isek_config.IsekConfig.get'" class="reference internal" href="#isek.isek_config.IsekConfig.get"><code class="docutils literal notranslate"><span class="pre">IsekConfig.get()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_config.IsekConfig.get_sub_config'" class="reference internal" href="#isek.isek_config.IsekConfig.get_sub_config"><code class="docutils literal notranslate"><span class="pre">IsekConfig.get_sub_config()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_config.IsekConfig.load_agent'" class="reference internal" href="#isek.isek_config.IsekConfig.load_agent"><code class="docutils literal notranslate"><span class="pre">IsekConfig.load_agent()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_config.IsekConfig.load_embedding'" class="reference internal" href="#isek.isek_config.IsekConfig.load_embedding"><code class="docutils literal notranslate"><span class="pre">IsekConfig.load_embedding()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_config.IsekConfig.load_etcd_registry'" class="reference internal" href="#isek.isek_config.IsekConfig.load_etcd_registry"><code class="docutils literal notranslate"><span class="pre">IsekConfig.load_etcd_registry()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_config.IsekConfig.load_isek_center_registry'" class="reference internal" href="#isek.isek_config.IsekConfig.load_isek_center_registry"><code class="docutils literal notranslate"><span class="pre">IsekConfig.load_isek_center_registry()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_config.IsekConfig.load_llm'" class="reference internal" href="#isek.isek_config.IsekConfig.load_llm"><code class="docutils literal notranslate"><span class="pre">IsekConfig.load_llm()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.isek_config.IsekConfig.load_registry'" class="reference internal" href="#isek.isek_config.IsekConfig.load_registry"><code class="docutils literal notranslate"><span class="pre">IsekConfig.load_registry()</span></code></a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#isek.cli.get_available_examples'" class="reference internal" href="#isek.cli.get_available_examples"><code class="docutils literal notranslate"><span class="pre">get_available_examples()</span></code></a></li>
+<li><a :data-current="activeSection === '#isek.cli.load_module'" class="reference internal" href="#isek.cli.load_module"><code class="docutils literal notranslate"><span class="pre">load_module()</span></code></a></li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2025, ISEK Team Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.1.3</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../_static/documentation_options.js?v=2ed17a75"></script>
+<script src="../_static/doctools.js?v=9bcbadda"></script>
+<script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../_static/theme.js?v=073f68d9"></script>
+</body>
+</html>

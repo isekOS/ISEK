@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="English"
+      data-content_root="../../../"
+      x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }"
+      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
+      class="scroll-smooth"
+      :class="{'dark': darkMode === 'dark' || (darkMode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)}"
+>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+  
+    <title>isek.util.tools | ISEK 0.1 documentation</title>
+    <meta property="og:title" content="isek.util.tools | ISEK 0.1 documentation" />
+    <meta name="twitter:title" content="isek.util.tools | ISEK 0.1 documentation" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=e72c8e07" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/theme.css?v=42baaae4" />
+        <link rel="search" title="Search" href="../../../search.html" />
+        <link rel="index" title="Index" href="../../../genindex.html" />
+
+    <script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+  <body x-data="{ showSidebar: false, showScrollTop: false }" class="min-h-screen font-sans antialiased bg-background text-foreground" :class="{ 'overflow-hidden': showSidebar }">
+    <div x-cloak x-show="showSidebar" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" @click.self="showSidebar = false"></div><div id="page" class="relative flex flex-col min-h-screen"><a href="#content" class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100">
+      Skip to content
+    </a><header
+  class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+    <div class="hidden mr-4 md:flex">
+      <a href="../../../index.html" class="flex items-center mr-6"><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">ISEK 0.1 documentation</span>
+      </a></div><button
+      class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden"
+      type="button" @click="showSidebar = true">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" aria-hidden="true"
+        fill="currentColor">
+        <path
+          d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z" />
+      </svg>
+      <span class="sr-only">Toggle navigation menu</span>
+    </button>
+    <div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+      <div class="flex-1 w-full md:w-auto md:flex-none"><form id="searchbox"
+      action="../../../search.html"
+      method="get"
+      class="relative flex items-center group"
+      @keydown.k.window.meta="$refs.search.focus()">
+  <input x-ref="search"
+          name="q"
+          id="search-input"
+          type="search"
+          aria-label="Search the docs"
+          placeholder="Search ..."
+          class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" />
+  <kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+    <span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+      </div>
+      <nav class="flex items-center space-x-1">
+        <button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'"
+          class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9"
+          type="button"
+          aria-label="Color theme switcher">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" fill="currentColor"
+            class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0">
+            <path
+              d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" fill="currentColor"
+            class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100">
+            <path
+              d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z" />
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside id="left-sidebar"
+  class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky"
+  :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }">
+
+    <a href="../../../index.html" class="!justify-start text-sm md:!hidden bg-background"><span class="font-bold text-clip whitespace-nowrap">ISEK 0.1 documentation</span>
+    </a>
+
+    <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+      <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/concepts.html">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/agents.html">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/core.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/agent.html">Agent Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/llm.html">Large Language Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/embedding.html">Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/util.html">Util</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+
+</nav>
+      </div>
+    </div>
+    <button type="button" @click="showSidebar = false"
+      class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" fill="currentColor"
+        stroke="none" class="h-4 w-4">
+        <path
+          d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z" />
+      </svg>
+    </button>
+  </aside>
+        <main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs"
+     class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+  <a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground"
+     href="../../../index.html">
+    <span class="hidden md:inline">ISEK 0.1 documentation</span>
+    <svg xmlns="http://www.w3.org/2000/svg"
+         height="18"
+         width="18"
+         viewBox="0 96 960 960"
+         aria-label="Home"
+         fill="currentColor"
+         stroke="none"
+         class="md:hidden">
+      <path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z" />
+    </svg>
+  </a>
+  
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap"
+       href="../../index.html">Module code</a>
+    
+<div class="mr-1">/</div><span aria-current="page"
+        class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">isek.util.tools</span>
+</nav>
+
+    <div id="content" role="main">
+      <h1>Source code for isek.util.tools</h1><div class="highlight"><pre>
+<span></span><code><span id="line-1"><span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+</span><span id="line-2"><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+</span><span id="line-3"><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+</span><span id="line-4"><span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+</span><span id="line-5"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span> <span class="c1"># Added more specific types</span>
+</span><span id="line-6">
+</span><span id="line-7"><span class="c1"># --- Type Aliases for Clarity ---</span>
+</span><span id="line-8"><span class="n">JsonType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span>
+</span><span id="line-9"><span class="n">FunctionSchema</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="c1"># Type alias for the schema structure</span>
+</span><span id="line-10"><span class="n">InputListType</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="c1"># Generic list for split_list input</span>
+</span><span id="line-11"><span class="n">ChunkedListType</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="c1"># Generic chunked list for split_list output</span>
+</span><span id="line-12"><span class="n">DictContent</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+</span><span id="line-13"><span class="n">ExcludeFields</span> <span class="o">=</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+</span><span id="line-14">
+</span><span id="line-15">
+<div class="viewcode-block" id="function_to_schema">
+<a class="viewcode-back" href="../../../api/util.html#isek.util.tools.function_to_schema">[docs]</a>
+</span><span id="line-16"><span class="k">def</span><span class="w"> </span><span class="nf">function_to_schema</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">FunctionSchema</span><span class="p">:</span>
+</span><span id="line-17"><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="line-18"><span class="sd">    Converts a Python function into an LLM-compatible tool schema.</span>
+</span><span id="line-19">
+</span><span id="line-20"><span class="sd">    This schema typically follows a format similar to OpenAI&#39;s function calling</span>
+</span><span id="line-21"><span class="sd">    schema, detailing the function&#39;s name, description (from its docstring),</span>
+</span><span id="line-22"><span class="sd">    and parameters (derived from its signature and type annotations).</span>
+</span><span id="line-23">
+</span><span id="line-24"><span class="sd">    Supported Python types for parameters are mapped to JSON schema types:</span>
+</span><span id="line-25"><span class="sd">    `str` -&gt; &quot;string&quot;, `int` -&gt; &quot;integer&quot;, `float` -&gt; &quot;number&quot;,</span>
+</span><span id="line-26"><span class="sd">    `bool` -&gt; &quot;boolean&quot;, `list` -&gt; &quot;array&quot;, `dict` -&gt; &quot;object&quot;,</span>
+</span><span id="line-27"><span class="sd">    `NoneType` -&gt; &quot;null&quot;. Unannotated parameters or parameters with</span>
+</span><span id="line-28"><span class="sd">    unsupported annotations default to &quot;string&quot;.</span>
+</span><span id="line-29">
+</span><span id="line-30"><span class="sd">    Parameter descriptions are basic and include type and default value if present.</span>
+</span><span id="line-31">
+</span><span id="line-32"><span class="sd">    :param func: The callable function to convert. It should ideally have type hints</span>
+</span><span id="line-33"><span class="sd">                 for its parameters and a docstring for its description.</span>
+</span><span id="line-34"><span class="sd">    :type func: typing.Callable[..., typing.Any]</span>
+</span><span id="line-35"><span class="sd">    :return: A dictionary representing the tool schema.</span>
+</span><span id="line-36"><span class="sd">    :rtype: FunctionSchema</span>
+</span><span id="line-37"><span class="sd">    :raises ValueError: If the function signature cannot be inspected (e.g., for some built-ins)</span>
+</span><span id="line-38"><span class="sd">                        or if a parameter&#39;s type annotation is of a type that</span>
+</span><span id="line-39"><span class="sd">                        cannot be directly mapped and is not a common built-in.</span>
+</span><span id="line-40"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="line-41">    <span class="n">type_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="line-42">        <span class="nb">str</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+</span><span id="line-43">        <span class="nb">int</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+</span><span id="line-44">        <span class="nb">float</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span>
+</span><span id="line-45">        <span class="nb">bool</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+</span><span id="line-46">        <span class="nb">list</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>  <span class="c1"># Note: Does not specify item types for the array.</span>
+</span><span id="line-47">        <span class="nb">dict</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="c1"># Note: Does not specify properties for the object.</span>
+</span><span id="line-48">        <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span> <span class="s2">&quot;null&quot;</span><span class="p">,</span> <span class="c1"># For NoneType</span>
+</span><span id="line-49">    <span class="p">}</span>
+</span><span id="line-50">
+</span><span id="line-51">    <span class="k">try</span><span class="p">:</span>
+</span><span id="line-52">        <span class="n">signature</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+</span><span id="line-53">    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span> <span class="c1"># e.g., for built-in functions in C</span>
+</span><span id="line-54">        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+</span><span id="line-55">            <span class="sa">f</span><span class="s2">&quot;Failed to get signature for function &#39;</span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="line-56">        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</span><span id="line-57">
+</span><span id="line-58">    <span class="n">parameters_properties</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="line-59">    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">signature</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+</span><span id="line-60">        <span class="c1"># Skip &#39;self&#39; for methods, and varargs/varkwargs for simplicity in schema</span>
+</span><span id="line-61">        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;self&#39;</span> <span class="ow">and</span> <span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">POSITIONAL_OR_KEYWORD</span><span class="p">:</span>
+</span><span id="line-62">            <span class="k">continue</span>
+</span><span id="line-63">        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">VAR_POSITIONAL</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">VAR_KEYWORD</span><span class="p">):</span>
+</span><span id="line-64">            <span class="k">continue</span>
+</span><span id="line-65">
+</span><span id="line-66">        <span class="n">param_type_annotation</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">annotation</span>
+</span><span id="line-67">        <span class="n">json_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;string&quot;</span>  <span class="c1"># Default type if annotation is missing or unmappable</span>
+</span><span id="line-68">
+</span><span id="line-69">        <span class="c1"># Handle Optional[T] (which is Union[T, NoneType]) and Union[T, None]</span>
+</span><span id="line-70">        <span class="c1"># by extracting the non-NoneType part for the schema type.</span>
+</span><span id="line-71">        <span class="c1"># The &#39;required&#39; list will handle if the parameter itself is optional.</span>
+</span><span id="line-72">        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">param_type_annotation</span><span class="p">,</span> <span class="s1">&#39;__origin__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">param_type_annotation</span><span class="o">.</span><span class="n">__origin__</span> <span class="ow">is</span> <span class="n">Union</span><span class="p">:</span>
+</span><span id="line-73">            <span class="c1"># Filter out NoneType for Optional fields</span>
+</span><span id="line-74">            <span class="n">union_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">param_type_annotation</span><span class="o">.</span><span class="n">__args__</span> <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
+</span><span id="line-75">            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">union_args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># This was Optional[X] or Union[X, None]</span>
+</span><span id="line-76">                <span class="n">param_type_annotation</span> <span class="o">=</span> <span class="n">union_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="line-77">            <span class="c1"># else: complex Union, defaults to &quot;string&quot; or requires more sophisticated handling</span>
+</span><span id="line-78">
+</span><span id="line-79">        <span class="k">if</span> <span class="n">param_type_annotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+</span><span id="line-80">            <span class="n">json_type</span> <span class="o">=</span> <span class="n">type_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param_type_annotation</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">)</span> <span class="c1"># Default to string if type not in map</span>
+</span><span id="line-81">        
+</span><span id="line-82">        <span class="c1"># Create a basic description for the parameter</span>
+</span><span id="line-83">        <span class="n">param_description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Parameter &#39;</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+</span><span id="line-84">        <span class="c1"># Adding type information to description can be helpful for LLMs</span>
+</span><span id="line-85">        <span class="k">if</span> <span class="n">param_type_annotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+</span><span id="line-86">             <span class="n">param_description</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; Expected type: </span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">param_type_annotation</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;__name__&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">str</span><span class="p">(</span><span class="n">param_type_annotation</span><span class="p">))</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span id="line-87">        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">default</span> <span class="o">!=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+</span><span id="line-88">            <span class="n">param_description</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; Default value: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">default</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+</span><span id="line-89">
+</span><span id="line-90">
+</span><span id="line-91">        <span class="n">parameters_properties</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">json_type</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">param_description</span><span class="o">.</span><span class="n">strip</span><span class="p">()}</span>
+</span><span id="line-92">
+</span><span id="line-93">    <span class="n">required</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="line-94">        <span class="n">param</span><span class="o">.</span><span class="n">name</span>
+</span><span id="line-95">        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">signature</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+</span><span id="line-96">        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">default</span> <span class="o">==</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span> <span class="ow">and</span>
+</span><span id="line-97">           <span class="n">param</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;self&#39;</span> <span class="ow">and</span> <span class="c1"># Ensure self is not in required</span>
+</span><span id="line-98">           <span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">VAR_POSITIONAL</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">VAR_KEYWORD</span><span class="p">)</span>
+</span><span id="line-99">    <span class="p">]</span>
+</span><span id="line-100">
+</span><span id="line-101">    <span class="c1"># Use function&#39;s docstring for description, default if none.</span>
+</span><span id="line-102">    <span class="n">func_description</span> <span class="o">=</span> <span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;No description provided for function </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="line-103">    <span class="c1"># Take only the first line of the docstring for a concise description, if multi-line.</span>
+</span><span id="line-104">    <span class="c1"># Or process it further if a more detailed description is desired.</span>
+</span><span id="line-105">    <span class="n">concise_description</span> <span class="o">=</span> <span class="n">func_description</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="line-106">
+</span><span id="line-107">
+</span><span id="line-108">    <span class="k">return</span> <span class="p">{</span>
+</span><span id="line-109">        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;function&quot;</span><span class="p">,</span>
+</span><span id="line-110">        <span class="s2">&quot;function&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="line-111">            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+</span><span id="line-112">            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">concise_description</span><span class="p">,</span> <span class="c1"># Using concise description</span>
+</span><span id="line-113">            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="line-114">                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+</span><span id="line-115">                <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">parameters_properties</span><span class="p">,</span>
+</span><span id="line-116">                <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">required</span><span class="p">),</span> <span class="c1"># Sort for consistent schema output</span>
+</span><span id="line-117">            <span class="p">},</span>
+</span><span id="line-118">        <span class="p">},</span>
+</span><span id="line-119">    <span class="p">}</span></div>
+
+</span><span id="line-120">
+</span><span id="line-121">
+<div class="viewcode-block" id="load_json_from_chat_response">
+<a class="viewcode-back" href="../../../api/util.html#isek.util.tools.load_json_from_chat_response">[docs]</a>
+</span><span id="line-122"><span class="k">def</span><span class="w"> </span><span class="nf">load_json_from_chat_response</span><span class="p">(</span><span class="n">chat_result</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JsonType</span><span class="p">:</span>
+</span><span id="line-123"><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="line-124"><span class="sd">    Extracts and parses JSON data from a chat response string.</span>
+</span><span id="line-125">
+</span><span id="line-126"><span class="sd">    It looks for JSON content enclosed in markdown-style code blocks</span>
+</span><span id="line-127"><span class="sd">    (e.g., \`\`\`json ... \`\`\`).</span>
+</span><span id="line-128">
+</span><span id="line-129"><span class="sd">    :param chat_result: The string chat response, potentially containing JSON.</span>
+</span><span id="line-130"><span class="sd">    :type chat_result: str</span>
+</span><span id="line-131"><span class="sd">    :return: The parsed JSON data (dictionary or list).</span>
+</span><span id="line-132"><span class="sd">    :rtype: JsonType</span>
+</span><span id="line-133"><span class="sd">    :raises RuntimeError: If no JSON content in the expected format is found.</span>
+</span><span id="line-134"><span class="sd">    :raises json.JSONDecodeError: If the extracted content is not valid JSON.</span>
+</span><span id="line-135"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="line-136">    <span class="c1"># Regex to find JSON content within ```json ... ``` blocks</span>
+</span><span id="line-137">    <span class="c1"># re.DOTALL allows &#39;.&#39; to match newline characters.</span>
+</span><span id="line-138">    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;```(?:json)?\s*(.*?)\s*```&#39;</span> <span class="c1"># Made &#39;json&#39; optional in marker, added optional whitespace</span>
+</span><span id="line-139">    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">chat_result</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span> <span class="c1"># Added IGNORECASE for &#39;json&#39; marker</span>
+</span><span id="line-140">
+</span><span id="line-141">    <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+</span><span id="line-142">        <span class="n">json_data_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="line-143">        <span class="k">try</span><span class="p">:</span>
+</span><span id="line-144">            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_data_str</span><span class="p">)</span>
+</span><span id="line-145">        <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="line-146">            <span class="c1"># Provide more context in the error message</span>
+</span><span id="line-147">            <span class="k">raise</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">(</span>
+</span><span id="line-148">                <span class="sa">f</span><span class="s2">&quot;Failed to parse extracted JSON content: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2">. Extracted string: &#39;</span><span class="si">{</span><span class="n">json_data_str</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span><span class="si">}</span><span class="s2">...&#39;&quot;</span><span class="p">,</span>
+</span><span id="line-149">                <span class="n">e</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span>
+</span><span id="line-150">                <span class="n">e</span><span class="o">.</span><span class="n">pos</span>
+</span><span id="line-151">            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</span><span id="line-152">    <span class="k">else</span><span class="p">:</span>
+</span><span id="line-153">        <span class="c1"># Fallback: try to parse the whole string if no markdown block is found</span>
+</span><span id="line-154">        <span class="c1"># This is risky but might catch cases where the LLM just returns raw JSON.</span>
+</span><span id="line-155">        <span class="k">try</span><span class="p">:</span>
+</span><span id="line-156">            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">chat_result</span><span class="p">)</span>
+</span><span id="line-157">        <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+</span><span id="line-158">            <span class="c1"># If this also fails, then raise the original error.</span>
+</span><span id="line-159">            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No JSON content found in markdown code blocks, &quot;</span>
+</span><span id="line-160">                               <span class="sa">f</span><span class="s2">&quot;and the entire string is not valid JSON. Input: &#39;</span><span class="si">{</span><span class="n">chat_result</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span><span class="si">}</span><span class="s2">...&#39;&quot;</span><span class="p">)</span></div>
+
+</span><span id="line-161">
+</span><span id="line-162">
+<div class="viewcode-block" id="split_list">
+<a class="viewcode-back" href="../../../api/util.html#isek.util.tools.split_list">[docs]</a>
+</span><span id="line-163"><span class="k">def</span><span class="w"> </span><span class="nf">split_list</span><span class="p">(</span><span class="n">input_list</span><span class="p">:</span> <span class="n">InputListType</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChunkedListType</span><span class="p">:</span>
+</span><span id="line-164"><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="line-165"><span class="sd">    Splits a list into smaller chunks of a specified maximum size.</span>
+</span><span id="line-166">
+</span><span id="line-167"><span class="sd">    :param input_list: The list to be split.</span>
+</span><span id="line-168"><span class="sd">    :type input_list: typing.List[typing.Any]</span>
+</span><span id="line-169"><span class="sd">    :param chunk_size: The maximum size of each chunk. Must be a positive integer.</span>
+</span><span id="line-170"><span class="sd">    :type chunk_size: int</span>
+</span><span id="line-171"><span class="sd">    :return: A list of lists, where each inner list is a chunk.</span>
+</span><span id="line-172"><span class="sd">    :rtype: typing.List[typing.List[typing.Any]]</span>
+</span><span id="line-173"><span class="sd">    :raises ValueError: If `chunk_size` is not a positive integer.</span>
+</span><span id="line-174"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="line-175">    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunk_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">chunk_size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="line-176">        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;chunk_size must be a positive integer.&quot;</span><span class="p">)</span>
+</span><span id="line-177">    <span class="k">if</span> <span class="ow">not</span> <span class="n">input_list</span><span class="p">:</span> <span class="c1"># Handle empty input list</span>
+</span><span id="line-178">        <span class="k">return</span> <span class="p">[]</span>
+</span><span id="line-179">    <span class="k">return</span> <span class="p">[</span><span class="n">input_list</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">chunk_size</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_list</span><span class="p">),</span> <span class="n">chunk_size</span><span class="p">)]</span></div>
+
+</span><span id="line-180">
+</span><span id="line-181">
+<div class="viewcode-block" id="md5">
+<a class="viewcode-back" href="../../../api/util.html#isek.util.tools.md5">[docs]</a>
+</span><span id="line-182"><span class="k">def</span><span class="w"> </span><span class="nf">md5</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="line-183"><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="line-184"><span class="sd">    Computes the MD5 hash of a given string.</span>
+</span><span id="line-185">
+</span><span id="line-186"><span class="sd">    The input string is encoded to UTF-8 before hashing.</span>
+</span><span id="line-187">
+</span><span id="line-188"><span class="sd">    :param source: The string to hash.</span>
+</span><span id="line-189"><span class="sd">    :type source: str</span>
+</span><span id="line-190"><span class="sd">    :return: The hexadecimal MD5 hash string.</span>
+</span><span id="line-191"><span class="sd">    :rtype: str</span>
+</span><span id="line-192"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="line-193">    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="line-194">        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input &#39;source&#39; for md5 must be a string.&quot;</span><span class="p">)</span>
+</span><span id="line-195">    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
+
+</span><span id="line-196">
+</span><span id="line-197">
+<div class="viewcode-block" id="dict_md5">
+<a class="viewcode-back" href="../../../api/util.html#isek.util.tools.dict_md5">[docs]</a>
+</span><span id="line-198"><span class="k">def</span><span class="w"> </span><span class="nf">dict_md5</span><span class="p">(</span><span class="n">dict_content</span><span class="p">:</span> <span class="n">DictContent</span><span class="p">,</span> <span class="n">exclude_fields</span><span class="p">:</span> <span class="n">ExcludeFields</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="line-199"><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="line-200"><span class="sd">    Computes the MD5 hash of a dictionary&#39;s content.</span>
+</span><span id="line-201">
+</span><span id="line-202"><span class="sd">    The dictionary is first serialized to a JSON string with sorted keys</span>
+</span><span id="line-203"><span class="sd">    (to ensure consistent hashing regardless of initial key order) and</span>
+</span><span id="line-204"><span class="sd">    `ensure_ascii=False` (to handle non-ASCII characters correctly).</span>
+</span><span id="line-205"><span class="sd">    Specified fields can be excluded from the hashing process.</span>
+</span><span id="line-206">
+</span><span id="line-207"><span class="sd">    :param dict_content: The dictionary whose content is to be hashed.</span>
+</span><span id="line-208"><span class="sd">    :type dict_content: typing.Dict[str, typing.Any]</span>
+</span><span id="line-209"><span class="sd">    :param exclude_fields: An optional list of field names (keys) to exclude</span>
+</span><span id="line-210"><span class="sd">                           from the dictionary before generating the hash.</span>
+</span><span id="line-211"><span class="sd">                           Defaults to None (no fields excluded).</span>
+</span><span id="line-212"><span class="sd">    :type exclude_fields: typing.Optional[typing.List[str]]</span>
+</span><span id="line-213"><span class="sd">    :return: The hexadecimal MD5 hash string of the dictionary&#39;s content.</span>
+</span><span id="line-214"><span class="sd">    :rtype: str</span>
+</span><span id="line-215"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="line-216">    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dict_content</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+</span><span id="line-217">        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input &#39;dict_content&#39; for dict_md5 must be a dictionary.&quot;</span><span class="p">)</span>
+</span><span id="line-218">
+</span><span id="line-219">    <span class="c1"># Create a shallow copy to avoid modifying the original dictionary</span>
+</span><span id="line-220">    <span class="n">dict_to_hash</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dict_content</span><span class="p">)</span>
+</span><span id="line-221">
+</span><span id="line-222">    <span class="k">if</span> <span class="n">exclude_fields</span><span class="p">:</span>
+</span><span id="line-223">        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">exclude_fields</span><span class="p">:</span>
+</span><span id="line-224">            <span class="n">dict_to_hash</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="c1"># Safely remove field if it exists</span>
+</span><span id="line-225">
+</span><span id="line-226">    <span class="c1"># Serialize to JSON with sorted keys and ensure_ascii=False for consistent hashing</span>
+</span><span id="line-227">    <span class="c1"># ensure_ascii=False is important for proper handling of unicode characters.</span>
+</span><span id="line-228">    <span class="k">try</span><span class="p">:</span>
+</span><span id="line-229">        <span class="n">sorted_json_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dict_to_hash</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="line-230">    <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="line-231">        <span class="c1"># This can happen if the dictionary contains non-serializable types</span>
+</span><span id="line-232">        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dictionary contains non-JSON-serializable data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</span><span id="line-233">
+</span><span id="line-234">    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">sorted_json_str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
+
+</span></code></pre></div>
+    </div></div>
+        </main>
+      </div>
+    </div><footer class="py-6 border-t border-border md:py-0">
+    <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+      <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+        <p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2025, ISEK Team&nbsp;Built with <a class="font-medium underline underline-offset-4"
+    href="https://www.sphinx-doc.org"
+    rel="noreferrer">Sphinx 8.1.3</a></p>
+</div>
+</div>
+</footer>
+  </div>
+  
+    <script src="../../../_static/documentation_options.js?v=2ed17a75"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script defer="defer" src="../../../_static/theme.js?v=073f68d9"></script>
+  
+</body>
+</html>
