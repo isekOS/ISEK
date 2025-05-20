@@ -3,6 +3,6 @@ repos:
     hooks:
       - id: isek-test
         name: Run pytest
-        entry: pytest
+        entry: bash -c 'cd $(git rev-parse --show-toplevel) && pytest'
         language: system
         types: [python]

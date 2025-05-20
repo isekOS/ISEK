@@ -43,8 +43,7 @@ If you're ready to contribute code, here's how to set up ISEK for local developm
 4.  **Install Dependencies:**
     *   **If using `venv` and you have a `requirements-dev.txt` or similar:**
         ```bash
-        pip install -r requirements-dev.txt # Or just requirements.txt
-        pip install -e . # Install ISEK in editable mode
+        pip install .
         ```
     *   **If using Hatch:**
         Hatch usually installs dependencies when creating the environment. If you have specific dependency groups (e.g., `dev`, `test`), they might be installed automatically or you can install them with:

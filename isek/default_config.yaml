@@ -35,8 +35,6 @@ registry: "isek_center"
 registry.etcd:
   host: "47.236.116.81"
   port: 2379
-  user: null
-  password: null
 
 registry.isek_center:
   host: "127.0.0.1"

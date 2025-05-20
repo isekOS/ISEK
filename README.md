@@ -45,7 +45,7 @@ With native integration of large language models (LLMs) and a user-friendly CLI,
 ```bash
 pip install isek
 
-> Requires **Python 3.8+**
+> Requires **Python 3.9+**
 
 ---
 
