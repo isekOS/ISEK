@@ -11,7 +11,7 @@
   <a href="mailto:team@isek.xyz"><img src="https://img.shields.io/badge/contact-team@isek.xyz-blue" alt="Email" /></a>
 </p>
 
-<h4 align="center">Add commentMore actions
+<h4 align="center">
     <a href="README.md">English</a> |
     <a href="README_CN.md">中文</a>
 </h4>
