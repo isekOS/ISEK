@@ -11,6 +11,11 @@
   <a href="mailto:team@isek.xyz"><img src="https://img.shields.io/badge/contact-team@isek.xyz-blue" alt="Email" /></a>
 </p>
 
+<h4 align="center">Add commentMore actions
+    <a href="README.md">English</a> |
+    <a href="README_CN.md">中文</a>
+</h4>
+
 ---
 
 **Isek** is a decentralized agent network framework designed for building intelligent, collaborative agent-to-agent (A2A) systems. Agents in Isek autonomously discover peers, share context, and cooperatively solve tasks, forming a self-organizing, decentralized society.
@@ -46,7 +51,7 @@ With native integration of large language models (LLMs) and a user-friendly CLI,
 pip install isek
 ```
 
-> Requires **Python 3.8+**
+> Requires **Python 3.9+**
 
 ---
 
@@ -129,7 +134,7 @@ We welcome collaborators, researchers, and early adopters!
 
 * 💬 Open issues or suggestions via [GitHub Issues](https://github.com/your-repo/issues)
 * 📧 Contact us directly: [team@isek.xyz](mailto:team@isek.xyz)
-* 📄 See our [Contribution Guidelines](CONTRIBUTION.md)
+* 📄 See our [Contribution Guidelines](CONTRIBUTING.md)
 
 ---
 
