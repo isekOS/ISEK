@@ -6,6 +6,7 @@ from isek.node.isek_center_registry import IsekCenterRegistry
 from isek.agent.persona import Persona
 from isek.util.logger import logger
 from isek.llm import OpenAIModel
+from isek.llm.llm import LLM
 from dotenv import load_dotenv
 
 
@@ -53,10 +54,15 @@ def main():
         "routine": "you are responsiable for publish content on twitter, facebook, and instagram",
     }
 
-    model = OpenAIModel(
-        model_name=os.environ.get("OPENAI_MODEL_NAME"),
-        base_url=os.environ.get("OPENAI_BASE_URL"),
-        api_key=os.environ.get("OPENAI_API_KEY"),
+    # model = OpenAIModel(
+    #     model_name=os.environ.get("OPENAI_MODEL_NAME"),
+    #     base_url=os.environ.get("OPENAI_BASE_URL"),
+    #     api_key=os.environ.get("OPENAI_API_KEY"),
+    # )
+    model = LLM(
+        provider="gemini",
+        model_name=os.environ.get("GEMINI_MODEL_NAME", "gemini-2.0-flash"),
+        api_key=os.environ["GEMINI_API_KEY"],
     )
 
     Mani = Persona.from_json(Mani_info)

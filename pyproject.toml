@@ -32,7 +32,8 @@ dependencies = [
     "pytest",
     "pre-commit",
     "etcd3gw",
-    "mypy"
+    "mypy",
+    "litellm"
 
 ]
 
