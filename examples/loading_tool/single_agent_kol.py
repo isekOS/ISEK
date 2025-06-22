@@ -1,7 +1,7 @@
 import time
 import os
 from isek.agent.single_agent import SingleAgent
-from isek.llm.openai_model import OpenAIModel
+from isek.models.openai.chat import OpenAIModel
 from isek.agent.persona import Persona
 from dotenv import load_dotenv
 

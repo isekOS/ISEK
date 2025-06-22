@@ -5,7 +5,7 @@ from isek.agent.persona import Persona
 from isek.agent.single_agent import SingleAgent
 from isek.agent.distributed_agent import DistributedAgent
 from isek.node import EtcdRegistry, IsekCenterRegistry
-from isek.llm import llms
+from isek.models import llms
 from isek.embedding import embeddings
 
 

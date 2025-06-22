@@ -5,8 +5,8 @@ from isek.agent.distributed_agent import DistributedAgent
 from isek.node.isek_center_registry import IsekCenterRegistry
 from isek.agent.persona import Persona
 from isek.util.logger import logger
-from isek.llm import OpenAIModel
-from isek.llm.llm import LLM
+from isek.models import OpenAIModel
+from isek.models.litellm.chat import LLM
 from dotenv import load_dotenv
 
 

@@ -3,7 +3,7 @@ import os
 from isek.agent.distributed_agent import DistributedAgent
 from isek.node.isek_center_registry import IsekCenterRegistry
 from isek.agent.persona import Persona
-from isek.llm import OpenAIModel
+from isek.models import OpenAIModel
 from dotenv import load_dotenv
 
 

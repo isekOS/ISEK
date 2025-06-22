@@ -1,7 +1,7 @@
 import time
 import os
 
-from isek.llm.openai_model import OpenAIModel
+from isek.models.openai.chat import OpenAIModel
 from isek.agent.persona import Persona
 from isek.node.isek_center_registry import IsekCenterRegistry
 from isek.agent.distributed_agent import DistributedAgent

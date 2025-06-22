@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-from isek.llm.openai_model import OpenAIModel
+from isek.models.openai.chat import OpenAIModel
 
 # from isek.embedding.openai_embedding import OpenAIEmbedding
-from isek.llm.abstract_model import AbstractModel
+from isek.models.abstract_model import AbstractModel
 
 # from isek.embedding.abstract_embedding import AbstractEmbedding
 from typing import Optional, List, Callable

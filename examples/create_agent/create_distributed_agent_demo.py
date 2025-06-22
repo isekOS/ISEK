@@ -2,7 +2,7 @@ import sys
 import os
 from isek.agent.distributed_agent import DistributedAgent
 from isek.agent.persona import Persona
-from isek.llm.openai_model import OpenAIModel
+from isek.models.openai.chat import OpenAIModel
 from isek.node.isek_center_registry import IsekCenterRegistry
 from dotenv import load_dotenv
 

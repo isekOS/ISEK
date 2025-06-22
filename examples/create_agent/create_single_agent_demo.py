@@ -2,8 +2,8 @@ import sys
 import os
 from isek.agent.single_agent import SingleAgent
 from isek.agent.persona import Persona
-from isek.llm.openai_model import OpenAIModel
-from isek.llm.llm import LLM
+from isek.models.openai.chat import OpenAIModel
+from isek.models.litellm.chat import LiteLLM
 from dotenv import load_dotenv
 
 
@@ -17,7 +17,7 @@ def fast_create():
 
 def statement_llm_create():
     load_dotenv()
-    model = LLM(
+    model = LiteLLM(
         provider="openai",
         model_name=os.environ["OPENAI_MODEL_NAME"],
         base_url=os.environ["OPENAI_BASE_URL"],

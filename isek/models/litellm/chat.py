@@ -3,76 +3,61 @@
 import time
 import os
 import json
-from isek.util.logger import logger  # Assuming logger is configured
-from isek.llm.abstract_model import AbstractModel
+from isek.util.logger import logger
 from isek.util.tools import (
     load_json_from_chat_response,
-)  # Assuming these utilities exist
-from typing import List, Optional, Dict, Callable, Any  # Added Any
-from openai import OpenAI
-from openai.types.chat import (
-    ChatCompletion,
-)  # For type hinting the response of `create`
+)
+from typing import List, Optional, Dict, Callable, Any
+from litellm import completion, ModelResponse, validate_environment
+from isek.constant.provider import PROVIDER_MAP, DEFAULT_PROVIDER
+from isek.models.abstract_model import AbstractModel
+import warnings
 
+# TODO: Remove after https://github.com/BerriAI/litellm/issues/7560 is fixed
+warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
 # Define a type alias for message dictionaries for clarity
 ChatMessage = Dict[str, str]  # e.g., {"role": "user", "content": "Hello"}
 ToolSchema = Dict[str, Any]  # e.g., the schema for a tool/function
 
 
-class OpenAIModel(AbstractModel):
+class LiteLLM(AbstractModel):
     """
-    An implementation of :class:`~isek.llm.abstract_model.AbstractModel`
-    that uses OpenAI's API for chat completions.
-
-    This class provides methods to interact with OpenAI's chat models (like GPT-3.5, GPT-4)
-    to generate text, JSON objects, and handle tool/function calling.
-    It handles API key and endpoint configuration, request formatting, and retries.
+    Base class for all LLM models.
     """
 
     def __init__(
         self,
+        provider: Optional[str] = None,
         model_name: Optional[str] = None,
         api_key: Optional[str] = None,
         base_url: Optional[str] = None,
     ):
-        """
-        Initializes the OpenAIModel client.
-
-        Configuration (model name, API key, base URL) is sourced from parameters,
-        falling back to environment variables (`OPENAI_MODEL_NAME`, `OPENAI_API_KEY`,
-        `OPENAI_BASE_URL`) if parameters are not provided.
-
-        :param model_name: The name of the OpenAI chat model to use (e.g., "gpt-3.5-turbo", "gpt-4").
-                           If `None`, defaults to the value of `OPENAI_MODEL_NAME` environment variable,
-                           or remains `None` if the environment variable is also not set (which might lead
-                           to errors if not specified before making API calls).
-        :type model_name: typing.Optional[str]
-        :param api_key: The OpenAI API key. If `None`, defaults to `OPENAI_API_KEY` environment variable.
-        :type api_key: typing.Optional[str]
-        :param base_url: The base URL for the OpenAI API. Useful for proxying or using compatible
-                         non-OpenAI endpoints. If `None`, defaults to `OPENAI_BASE_URL` environment variable,
-                         or the default OpenAI API URL if the environment variable is also not set.
-        :type base_url: typing.Optional[str]
-        """
-        super().__init__()
-        self.model_name: Optional[str] = model_name or os.environ.get(
-            "OPENAI_MODEL_NAME"
-        )
-        # Ensure model_name is set, otherwise API calls will fail.
-        if not self.model_name:
-            logger.warning(
-                "OpenAIModel initialized without a model_name. API calls may fail. "
-                "Set it via parameter or OPENAI_MODEL_NAME environment variable."
+        self.provider: Optional[str] = provider or DEFAULT_PROVIDER
+        if self.provider not in PROVIDER_MAP:
+            raise ValueError(
+                f"Unsupported provider: {self.provider}. "
+                f"Supported providers are: {', '.join(PROVIDER_MAP.keys())}."
             )
-            # Consider raising an error here if a model_name is strictly required at init.
-            # For now, allowing it to be None and potentially fail later.
+        model_env_key = PROVIDER_MAP[self.provider].get("model_env_key")
+        default_model = PROVIDER_MAP[self.provider].get("default_model")
+        api_env_key = PROVIDER_MAP[self.provider].get("api_env_key")
+        base_url_env_key = PROVIDER_MAP[self.provider].get("base_url_env_key")
 
-        _base_url: Optional[str] = base_url or os.environ.get("OPENAI_BASE_URL")
-        _api_key: Optional[str] = api_key or os.environ.get("OPENAI_API_KEY")
+        self.model_name: Optional[str] = model_name or os.environ.get(
+            model_env_key, default_model
+        )
+        self.model_name = self.provider + "/" + self.model_name
+        self.api_key: Optional[str] = api_key or os.environ.get(api_env_key)
+        self.base_url: Optional[str] = base_url or os.environ.get(base_url_env_key)
 
-        self.client: OpenAI = OpenAI(base_url=_base_url, api_key=_api_key)
+        if not validate_environment(self.model_name):
+            raise ValueError(
+                f"Environment variables for {self.provider} are not set correctly. "
+                f"Please ensure {model_env_key}, {api_env_key}, and {base_url_env_key} are set."
+            )
+
         logger.info(
-            f"OpenAIModel initialized with model: {self.model_name}, base_url: {_base_url if _base_url else 'default'}"
+            f"LLM initialized with model: {self.model_name}, base_url: {self.base_url if self.base_url else 'default'}"
         )
 
     def generate_json(
@@ -112,16 +97,13 @@ class OpenAIModel(AbstractModel):
         :raises Exception: If `check_json_def` raises an exception.
         """
         if not self.model_name:
-            raise ValueError(
-                "OpenAIModel model_name is not set. Cannot make API calls."
-            )
-
+            raise ValueError("LLM model_name is not set. Cannot make API calls.")
         for i in range(retry):
             try:
                 # For robust JSON, consider adding response_format={"type": "json_object"}
                 # to the `create` call if the model supports it.
                 # This would require modifying the `create` method or passing it as a kwarg.
-                response: ChatCompletion = self.create(
+                response: ModelResponse = self.create(
                     messages=[{"role": "user", "content": prompt}],
                     systems=system_messages,
                     # Example for future: response_format={"type": "json_object"}
@@ -187,10 +169,9 @@ class OpenAIModel(AbstractModel):
             raise ValueError(
                 "OpenAIModel model_name is not set. Cannot make API calls."
             )
-
         for i in range(retry):
             try:
-                response: ChatCompletion = self.create(
+                response: ModelResponse = self.create(
                     messages=[{"role": "user", "content": prompt}],
                     systems=system_messages,
                 )
@@ -237,8 +218,8 @@ class OpenAIModel(AbstractModel):
         messages: List[ChatMessage],
         systems: Optional[List[ChatMessage]] = None,
         tool_schemas: Optional[List[ToolSchema]] = None,
-        **kwargs: Any,  # Allow passing other ChatCompletion.create parameters
-    ) -> ChatCompletion:
+        **kwargs: Any,
+    ) -> ModelResponse:
         """
         Creates a chat completion using the OpenAI API.
 
@@ -262,10 +243,6 @@ class OpenAIModel(AbstractModel):
         :raises openai.APIError: If the OpenAI API returns an error.
         :raises ValueError: If `model_name` is not set.
         """
-        if not self.model_name:
-            raise ValueError(
-                "OpenAIModel model_name is not set. Cannot make API calls."
-            )
 
         # Prepend system messages if provided
         final_messages: List[ChatMessage] = (systems if systems else []) + messages
@@ -274,6 +251,7 @@ class OpenAIModel(AbstractModel):
         api_tools = (
             tool_schemas if tool_schemas is not None else None
         )  # Pass None if empty, not an empty list
+        print(api_tools)
 
         request_params = {
             "model": self.model_name,
@@ -284,15 +262,12 @@ class OpenAIModel(AbstractModel):
 
         # Merge any additional kwargs
         request_params.update(kwargs)
-
         logger.debug(
             f"Request to model [{self.model_name}]: {json.dumps(request_params, indent=2, default=str)}"
         )
         start_time = time.time()
         try:
-            response: ChatCompletion = self.client.chat.completions.create(
-                **request_params
-            )
+            response: ModelResponse = completion(**request_params)
             cost_seconds = time.time() - start_time
             # Be cautious logging the full response if it's very large or contains sensitive data.
             # Log relevant parts like usage and finish_reason.
