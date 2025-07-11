@@ -21,8 +21,9 @@ def get_company_info(url: str):
         response.encoding = 'utf-8'
         soup = BeautifulSoup(response.text, 'html.parser')
         return soup.get_text(strip=True)
-    except:
+    except Exception:
         return ""
+
 
 
 # Create toolkit with debug enabled
