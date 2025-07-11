@@ -1,7 +1,7 @@
 from isek.agent.isek_agent import IsekAgent
 from isek.models.litellm import LiteLLMModel
 from isek.models.base import SimpleMessage
-from isek.tools.finance_toolkit.get_base_info import base_info_tools
+from isek.tools.finance_toolkit.get_company_base_info import company_base_info_tools
 
 
 import dotenv
@@ -10,7 +10,7 @@ dotenv.load_dotenv()
 agent = IsekAgent(
     name="A-Share Company Info Agent",
     model=LiteLLMModel(provider = "deepseek", model_id="deepseek/deepseek-chat"),
-    tools=[base_info_tools],
+    tools=[company_base_info_tools],
     description="An assistant that finds stock info and company info given a company name",
     instructions=["Be polite", 
                   "Always first retrieve a numeric stock code (e.g. '600519') and a company 'About' or official website URL base on the company name.",

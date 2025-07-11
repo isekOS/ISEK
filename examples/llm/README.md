@@ -19,7 +19,7 @@ This example demonstrates how to build a company information agent using the [IS
 The agent uses the following components:
 
 -  [`LiteLLMModel`](** https://github.com/isekOS/ISEK/tree/main/isek/models/litellm**): Wrapper for any OpenAI-compatible LLM (e.g., DeepSeek, GPT-4, Claude, etc.)
-- [`base_info_tools`](https://github.com/isekOS/ISEK/tree/main/isek/tools/finance_toolkit): A collection of tools to retrieve stock codes, stock information, and company details.
+- [`base_info_tools`]: A collection of tools to retrieve stock codes, stock information, and company details.
 - `IsekAgent`: Manages tool usage and reasoning based on instructions.
 
 ---

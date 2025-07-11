@@ -26,7 +26,7 @@ def get_company_info(url: str):
 
 
 # Create toolkit with debug enabled
-base_info_tools = Toolkit(
+company_base_info_tools = Toolkit(
     name="stock_info_tool",
     tools=[get_stock_info, get_company_info],
     instructions="Fetch company information based on its stock code and the company's 'About' page or official website URL.",
@@ -36,9 +36,9 @@ base_info_tools = Toolkit(
 
 # Optionally, for demonstration, call list_functions and execute_function in debug mode
 if __name__ == "__main__":
-    base_info_tools.list_functions()
-    stock_info = base_info_tools.execute_function("get_stock_info", stock_code="00020")
-    company_info = base_info_tools.execute_function("get_company_info", url="https://www.sensetime.com/cn/about-index#1")
+    company_base_info_tools.list_functions()
+    stock_info = company_base_info_tools.execute_function("get_stock_info", stock_code="00020")
+    company_info = company_base_info_tools.execute_function("get_company_info", url="https://www.sensetime.com/cn/about-index#1")
     print("Stock Info:", stock_info) 
     print("Company Info:", company_info)
     
