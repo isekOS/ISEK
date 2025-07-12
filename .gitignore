@@ -148,6 +148,10 @@ cython_debug/
 /.venv_test
 
 node_modules/
+.npm-cache/
+.npmrc
 package-lock.json
+# Keep package-lock.json for reproducible builds in CI/CD
+# This ensures consistent dependency versions across all environments
 /.chainlit
 chainlit.md

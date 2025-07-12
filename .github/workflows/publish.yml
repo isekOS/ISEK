@@ -10,78 +10,107 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
+      
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-
+        
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-
+        
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
         pip install build twine
-
+        
     - name: Install JavaScript dependencies
       run: |
         cd isek/protocol/p2p
         npm install
-
+        
     - name: Build package
       run: python -m build
-
+        
     - name: Publish to PyPI
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       run: |
         python -m twine upload dist/*
-
-    - name: Create setup scripts
+        
+    - name: Create release assets
       run: |
-        # Unix install script
+        # Create a setup script that users can run
         cat > setup_isek.sh << 'EOF'
         #!/bin/bash
         echo "🚀 Setting up ISEK..."
+        
+        # Check if Python is installed
         if ! command -v python3 &> /dev/null; then
-            echo "❌ Python 3 is required."
+            echo "❌ Python 3 is required but not installed."
+            echo "Please install Python 3.10+ from https://python.org"
             exit 1
         fi
+        
+        # Check if Node.js is installed
         if ! command -v node &> /dev/null; then
-            echo "⚠️ Node.js is required for P2P functionality"
+            echo "⚠️  Node.js is required for P2P functionality"
+            echo "Please install Node.js from https://nodejs.org"
+            echo "Then run 'isek setup' again"
         fi
+        
+        # Install ISEK
         pip install isek
+        
+        # Run ISEK setup
         isek setup
+        
         echo "✅ ISEK setup completed!"
+        echo "Run 'isek example list' to see available examples"
         EOF
+        
         chmod +x setup_isek.sh
-
-        # Windows install script
+        
+        # Create Windows batch file
         cat > setup_isek.bat << 'EOF'
         @echo off
         echo 🚀 Setting up ISEK...
-        python --version >nul 2>&1 || (
-            echo ❌ Python is required.
+        
+        REM Check if Python is installed
+        python --version >nul 2>&1
+        if errorlevel 1 (
+            echo ❌ Python is required but not installed.
+            echo Please install Python 3.10+ from https://python.org
             pause
             exit /b 1
         )
-        node --version >nul 2>&1 || (
-            echo ⚠️ Node.js is required for P2P functionality
+        
+        REM Check if Node.js is installed
+        node --version >nul 2>&1
+        if errorlevel 1 (
+            echo ⚠️  Node.js is required for P2P functionality
+            echo Please install Node.js from https://nodejs.org
+            echo Then run 'isek setup' again
         )
+        
+        REM Install ISEK
         pip install isek
+        
+        REM Run ISEK setup
         isek setup
+        
         echo ✅ ISEK setup completed!
+        echo Run 'isek example list' to see available examples
         pause
         EOF
-
+        
     - name: Upload setup scripts to GitHub Release
       uses: softprops/action-gh-release@v1
       with:

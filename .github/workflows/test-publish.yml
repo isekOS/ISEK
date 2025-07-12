@@ -48,7 +48,14 @@ jobs:
     - name: Install JavaScript dependencies
       run: |
         cd isek/protocol/p2p
-        npm ci
+        # Ensure package-lock.json exists and use npm ci if available
+        if [ -f "package-lock.json" ]; then
+          echo "package-lock.json found, using npm ci..."
+          npm ci
+        else
+          echo "package-lock.json not found, using npm install..."
+          npm install
+        fi
 
     - name: Run tests (skip problematic ones)
       run: |
