@@ -3,7 +3,20 @@ import click
 import importlib.util
 import subprocess
 import sys
+import shutil
+import platform
 from pathlib import Path
+
+
+def get_npm_command():
+    """
+    Returns the available npm executable path on the current platform
+    (supports Windows, Linux, and macOS).
+    """
+    if platform.system() == "Windows":
+        return shutil.which("npm.cmd") or shutil.which("npm")
+    else:
+        return shutil.which("npm")
 
 
 def load_module(script_path: Path):
@@ -104,7 +117,9 @@ def setup():
     # Step 2: Check if Node.js is installed
     try:
         subprocess.run(["node", "--version"], check=True, capture_output=True)
-        subprocess.run(["npm", "--version"], check=True, capture_output=True)
+        subprocess.run(
+            [get_npm_command(), "--version"], check=True, capture_output=True
+        )
     except (subprocess.CalledProcessError, FileNotFoundError):
         click.secho(
             "⚠️  Node.js and npm are required for P2P functionality", fg="yellow"
@@ -118,7 +133,7 @@ def setup():
         click.secho("📦 Installing JavaScript dependencies for P2P...", fg="yellow")
         try:
             subprocess.check_call(
-                ["npm", "install"],
+                [get_npm_command(), "install"],
                 cwd=p2p_dir,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,

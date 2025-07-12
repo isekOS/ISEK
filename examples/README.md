@@ -10,6 +10,16 @@ Here we show you how to use isek to quickly build an agent, and how to build an 
   isek setup
 ```
 
+## 1️⃣ Set Up Environment
+
+Create a `.env` file:
+
+```env
+OPENAI_MODEL_NAME=gpt-4o-mini
+OPENAI_BASE_URL=https://api.openai.com/v1
+OPENAI_API_KEY=your_api_key
+```
+
 ## 🧪 Understanding how ISEK works
 
 - 【LV1】Show you how to build a simple agent
