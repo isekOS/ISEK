@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -108,22 +111,11 @@ jobs:
         pause
         EOF
         
-    - name: Upload release assets
-      uses: actions/upload-release-asset@v1
+    - name: Upload setup scripts to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          setup_isek.sh
+          setup_isek.bat
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./setup_isek.sh
-        asset_name: setup_isek.sh
-        asset_content_type: application/x-sh
-        
-    - name: Upload Windows setup script
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./setup_isek.bat
-        asset_name: setup_isek.bat
-        asset_content_type: application/x-msdownload 
