@@ -101,8 +101,9 @@ def start_server():
     
     try:
         # Start the server in a subprocess
+        dirc = os.path.dirname(__file__)
         server_process = subprocess.Popen([
-            sys.executable, "examples/UI/chainlit/agent_server.py"
+            sys.executable, f"{dirc}/agent_server.py"
         ], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         # Wait a moment for server to start
         time.sleep(3)
@@ -130,8 +131,9 @@ def start_chainlit():
     
     try:
         # Start Chainlit in a subprocess
+        dirc = os.path.dirname(__file__)
         chainlit_process = subprocess.Popen([
-            sys.executable, "-m", "chainlit", "run", "examples/UI/chainlit/chainlit_app.py"
+            sys.executable, "-m", "chainlit", "run", f"{dirc}/chainlit_app.py"
         ])
         
         time.sleep(2)
