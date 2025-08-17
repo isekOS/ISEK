@@ -5,6 +5,7 @@ from isek.tools.calculator import calculator_tools
 import dotenv
 dotenv.load_dotenv()
 
+
 agent = IsekAgent(
     name="My Agent",
     model=OpenAIModel(),
@@ -15,5 +16,4 @@ agent = IsekAgent(
     debug_mode=True
 )
 
-agent.print_response("hello")
 agent.print_response("What is 7 times 8 plus 2?")

@@ -19,4 +19,6 @@ I wanted to reach out to my boss about the project we discussed last week. I thi
 """
 
 # response = agent.run(f"Please polish this email to make it more professional and effective:\n\n{test_email}")
+# response = agent.run(test_email)
+# print(response)
 response = agent.print_response(test_email)

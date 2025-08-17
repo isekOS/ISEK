@@ -40,7 +40,9 @@ def main():
             return
 
     print("=== Available tools ===")
-    print(mcp_tools.list_functions())
+    tools = mcp_tools.list_available_tools()
+    for tool in tools:
+        print(f"- {tool}")
 
     # Create Agent
     agent = IsekAgent(
