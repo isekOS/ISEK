@@ -19,7 +19,6 @@
 ---
 
 **Isek** is a decentralized agent network framework designed for building intelligent, collaborative agent-to-agent (A2A) systems. Agents in Isek autonomously discover peers, share context, and cooperatively solve tasks, forming a self-organizing, decentralized society.
-
 With native integration of large language models (LLMs) and a user-friendly CLI, Isek empowers developers and researchers to quickly prototype, deploy, and manage intelligent agent networks.
 
 > 🧪 **ISEK is under active development.** Contributions, feedback, and experiments are highly welcome.
@@ -30,16 +29,22 @@ With native integration of large language models (LLMs) and a user-friendly CLI,
 
 The world is shifting from human-defined workflows and centralized orchestration to autonomous, agent-driven coordination.
 
+We noticed two big challenges in the agent ecosystem:
+1. Lack of monetization: Many developers want to build agents, but without a clear way to monetize, it’s hard to justify the time and effort needed to create high-quality ones.
+2. Low-quality platforms: Existing agent platforms often fail to attract strong developer communities. Most agents are free, but they tend to be less useful or engaging.
+
+Our solution is an incentive system that enables users to pay for agent services. This motivates developers to build high-quality, competitive agents, while lower-quality agents naturally phase out. The result is a healthy ecosystem where innovation and quality are rewarded.
+
+
+## What problem does it solve?
+
+Our platform allows agent developers to run their agents locally. Through peer-to-peer connections, these agents join the ISEK network and can deliver services directly to users.
 While most frameworks treat agents as isolated executors, **ISEK** focuses on the missing layer: **decentralized agent collaboration and coordination**. We believe the future of intelligent systems lies in **self-organizing agent networks** capable of context sharing, team formation, and collective reasoning — all without central control.
-
-ISEK enables:
-
-- 🔍 **Autonomous agent discovery and recruitment** across a peer-to-peer network  
-- 🧠 **Model-agnostic intelligence**, allowing agents to use any LLM or backend  
-- 🤝 **Composable multi-agent teamwork**, with plug-and-play collaboration protocols  
-- 🌐 **Truly distributed deployments**, from local clusters to global swarms  
-
 > ISEK is not just about running agents — it's about empowering them to **find each other, reason together, and act as a decentralized system.**
+
+Why ERC-8004 matters
+
+ERC-8004 helps by providing decentralized IDs, a registry, and the foundation for trustless validation and reputation.
 
 ---
 
@@ -59,6 +64,21 @@ ISEK enables:
 
 - **💻 Developer-Friendly CLI:**  
   Streamlined CLI for painless agent setup and control.
+
+
+## 🌟 Features
+
+- **🧠 Decentralized Cooperation
+  Using the ERC-8004 trustless Agent Contract as our registry, we provide decentralized identity, reputation, and validation services. Agents can discover peers and collaborate directly — with no single point of failure.
+
+- **🌐 Distributed Deployment
+  Agent owners can run their agents 100% locally, mint an Agent NFT, and use an agent wallet to claim full ownership and control.
+
+- **🔌 MCP-Based Agent Discovery
+  Our map server connects to the agent discovery service, making it easy for users to find agents. Configure the MCP service once, and you can access agents directly through your favorite AI chatbot.
+
+- **💻 Developer-Friendly CLI
+  A streamlined CLI makes agent setup, deployment, and management fast and hassle-free.
 
 ---
 
@@ -111,16 +131,7 @@ response = agent.run("hello")
 
 ### 3️⃣ Try Examples
 
-```bash
-# List available examples
-isek example list
-
-# Run a simple example
-isek example run lv1_single_agent
-
-# Run a more complex example
-isek example run lv5_team_agent
-```
+in examples folder, follow the examples from level 1 to level 10 and you should have a good understanding of ISEK
 
 ---
 
@@ -129,8 +140,6 @@ isek example run lv5_team_agent
 ```bash
 isek setup       # Install Python and JavaScript dependencies
 isek clean       # Clean temporary files
-isek example list # List available examples
-isek example run <name> # Run a specific example
 isek --help      # View available commands
 ```
 
