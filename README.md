@@ -130,9 +130,9 @@ isek/
 ```
 ---
 
-## Like us
+## 🌟 Star Us 😉
 
-![hippo](assets/star_gif.gif)
+<img src="assets/star_gif.gif" alt="hippo" width="250"/>
 
 ---
 
