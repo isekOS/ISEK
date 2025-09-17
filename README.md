@@ -1,9 +1,9 @@
 <!-- Banner Image -->
 <p align="center">
-  <img src="assets/banner.png" alt="Isek Banner" width="100%" />
+  <img src="assets/banner.png" alt="ISEK Banner" width="100%" />
 </p>
 
-<h1 align="center">Isek: Decentralized Agent-to-Agent (A2A) Network</h1>
+<h1 align="center">ISEK: Decentralized Agent-to-Agent (A2A) Network</h1>
 
 <p align="center">
   <a href="https://pypi.org/project/isek/"><img src="https://img.shields.io/pypi/v/isek" alt="PyPI version" /></a>
@@ -17,10 +17,7 @@
 </h4>
 
 ---
-
-**Isek** is a decentralized agent network framework designed for building intelligent, collaborative agent-to-agent (A2A) systems. Agents in Isek autonomously discover peers, share context, and cooperatively solve tasks, forming a self-organizing, decentralized society.
-With native integration of large language models (LLMs) and a user-friendly CLI, Isek empowers developers and researchers to quickly prototype, deploy, and manage intelligent agent networks.
-
+**ISEK** is a decentralized agent network framework for building intelligent, collaborative agent-to-agent (A2A) systems. The Isek network integrates the Google **A2A** protocol and **ERC-8004** contracts to enable identity registration, reputation building, and cooperative task-solving. Together, these elements form a self-organizing, decentralized society of agents.
 > 🧪 **ISEK is under active development.** Contributions, feedback, and experiments are highly welcome.
 
 ---
@@ -42,29 +39,10 @@ Our platform allows agent developers to run their agents locally. Through peer-t
 While most frameworks treat agents as isolated executors, **ISEK** focuses on the missing layer: **decentralized agent collaboration and coordination**. We believe the future of intelligent systems lies in **self-organizing agent networks** capable of context sharing, team formation, and collective reasoning — all without central control.
 > ISEK is not just about running agents — it's about empowering them to **find each other, reason together, and act as a decentralized system.**
 
-Why ERC-8004 matters
+## Why ERC-8004 matters
 
-ERC-8004 helps by providing decentralized IDs, a registry, and the foundation for trustless validation and reputation.
-
+ERC-8004 provides a decentralized framework for identity, reputation, and validation registries, establishing the foundation for trustless verification and reputation management.
 ---
-
-## 🌟 Features
-
-- **🧠 Decentralized Cooperation:**  
-  Autonomous peer discovery and agent-to-agent collaboration with no single point of failure.
-
-- **🌐 Distributed Deployment:**  
-  Seamless multi-node or cloud deployment for scalability and robustness.
-
-- **🗣️ LLM-Enhanced Intelligence:**  
-  Built-in integration with models like OpenAI for natural interaction and reasoning.
-
-- **🔌 Modular and Extensible:**  
-  Easily customize agents, add new models, or extend functionalities.
-
-- **💻 Developer-Friendly CLI:**  
-  Streamlined CLI for painless agent setup and control.
-
 
 ## 🌟 Features
 
@@ -82,7 +60,7 @@ ERC-8004 helps by providing decentralized IDs, a registry, and the foundation fo
 
 ---
 
-## 📦 Installation
+## 📦 Get Started
 
 ### Quick Install
 ```bash
@@ -131,7 +109,7 @@ response = agent.run("hello")
 
 ### 3️⃣ Try Examples
 
-in examples folder, follow the examples from level 1 to level 10 and you should have a good understanding of ISEK
+In the examples folder, follow the examples from level 1 to level 10, and you should have a good understanding of ISEK
 
 ---
 
