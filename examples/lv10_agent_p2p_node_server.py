@@ -54,7 +54,6 @@ class RandomNumberAdapter(Adapter):
 etcd_registry = EtcdRegistry(host="47.236.116.81", port=2379)
 # Create the server node.
 server_node = Node(node_id="RN", port=8888, p2p=True, p2p_server_port=9000, adapter=RandomNumberAdapter(), registry=etcd_registry)
-
 # Start the server in the foreground.
 server_node.build_server(daemon=False)
 # print(server_node.adapter.run("random a number 0-10"))
