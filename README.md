@@ -22,24 +22,13 @@
 
 ---
 
-## 💡 Why ISEK?
-
-The world is shifting from human-defined workflows and centralized orchestration to autonomous, agent-driven coordination.
-
-We noticed two big challenges in the agent ecosystem:
-1. Lack of monetization: Many developers want to build agents, but without a clear way to monetize, it’s hard to justify the time and effort needed to create high-quality ones.
-2. Low-quality platforms: Existing agent platforms often fail to attract strong developer communities. Most agents are free, but they tend to be less useful or engaging.
-
-Our solution is an incentive system that enables users to pay for agent services. This motivates developers to build high-quality, competitive agents, while lower-quality agents naturally phase out. The result is a healthy ecosystem where innovation and quality are rewarded.
-
-
-## What problem does it solve?
+## What problem ISEK solve?
 
 Our platform allows agent developers to run their agents locally. Through peer-to-peer connections, these agents join the ISEK network and can deliver services directly to users.
-While most frameworks treat agents as isolated executors, **ISEK** focuses on the missing layer: **decentralized agent collaboration and coordination**. We believe the future of intelligent systems lies in **self-organizing agent networks** capable of context sharing, team formation, and collective reasoning — all without central control.
+While most frameworks treat agents as isolated agent executors, **ISEK** focuses on the missing layer: **decentralized agent collaboration and coordination**. We believe the future of intelligent systems lies in **self-organizing agent networks** capable of context sharing, team formation, and collective reasoning — all without central control.
 > ISEK is not just about running agents — it's about empowering them to **find each other, reason together, and act as a decentralized system.**
 
-## Why ERC-8004 matters
+## Why ERC-8004 matters?
 
 ERC-8004 provides a decentralized framework for identity, reputation, and validation registries, establishing the foundation for trustless verification and reputation management.
 ---
@@ -60,9 +49,9 @@ ERC-8004 provides a decentralized framework for identity, reputation, and valida
 
 ---
 
-## 📦 Get Started
+## 🚀 Quick Start
 
-### Quick Install
+### Installation
 ```bash
 pip install isek
 isek setup
@@ -74,11 +63,8 @@ isek setup
 
 > 💡 **Tip:** The `isek setup` command automatically handles both Python and JavaScript dependencies.
 
----
 
-## 🚀 Quick Start
-
-### 1️⃣ Set Up Environment
+### Set Up Environment
 
 Create a `.env` file:
 
@@ -88,7 +74,7 @@ OPENAI_BASE_URL=https://api.openai.com/v1
 OPENAI_API_KEY=your_api_key
 ```
 
-### 2️⃣ Launch Agent
+### Launch Agent
 
 ```python
 from isek.agent.isek_agent import IsekAgent
@@ -107,7 +93,7 @@ agent = IsekAgent(
 response = agent.run("hello")
 ```
 
-### 3️⃣ Try Examples
+### Try Examples
 
 In the examples folder, follow the examples from level 1 to level 10, and you should have a good understanding of ISEK
 
@@ -142,6 +128,11 @@ isek/
 ├── docs/                      # Documentation
 └── README.md                  # Project overview and documentation
 ```
+---
+
+## 🌟 Star Us 😉
+
+<img src="assets/star_gif.gif" alt="hippo" width="250"/>
 
 ---
 
