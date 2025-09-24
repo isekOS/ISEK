@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/isekos-isek-badge.png)](https://mseep.ai/app/isekos-isek)
+
 <!-- Banner Image -->
 <p align="center">
   <img src="assets/banner.png" alt="ISEK Banner" width="100%" />
