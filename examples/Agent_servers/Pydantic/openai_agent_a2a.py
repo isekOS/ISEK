@@ -7,9 +7,9 @@ from pydantic_ai import Agent
 from a2a.server.tasks import TaskUpdater
 from a2a.types import TaskState, AgentCard, AgentCapabilities, AgentSkill
 from a2a.utils import new_agent_text_message, new_task
+from a2a.server.agent_execution.context import RequestContext
+from a2a.server.events.event_queue import EventQueue
 from isek.utils.common import (
-    create_agent_a2a_server, 
-    run_server,
     log_agent_start,
     log_agent_activity,
     log_agent_request,
@@ -17,8 +17,37 @@ from isek.utils.common import (
     log_error,
     log_system_event
 )
+from isek.node.node_v3_a2a import Node
+from a2a.server.agent_execution.agent_executor import AgentExecutor
 
 dotenv.load_dotenv()
+
+agent_card = AgentCard(
+    name="OpenAI Agent",
+    url="http://localhost:9999",
+    description="Simple OpenAI GPT-4 wrapper agent",
+    version="1.0",
+    capabilities=AgentCapabilities(
+        streaming=True,
+        tools=True,  # Enable tools support
+        task_execution=True  # Enable task execution
+    ),
+    defaultInputModes=["text/plain"],
+    defaultOutputModes=["text/plain"],
+    skills=[
+        AgentSkill(
+            id="general_assistant",
+            name="General Assistant",
+            description="Provides helpful responses to general queries using GPT-4",
+            tags=["general", "assistant", "gpt4"],
+            examples=[
+                "What is machine learning?",
+                "How do I write a Python function?",
+                "Explain quantum computing"
+            ]
+        )
+    ]
+)
 
 class OpenAIAgent:
     """Simple OpenAI wrapper agent."""
@@ -67,7 +96,7 @@ class OpenAIAgent:
                 "content": f"Error: {str(e)}",
             }
 
-class OpenAIAgentExecutor:
+class OpenAIAgentExecutor(AgentExecutor):
     """Simple executor for the OpenAI Agent."""
 
     def __init__(self):
@@ -114,42 +143,15 @@ class OpenAIAgentExecutor:
             log_error(f"Error in executor: {str(e)}")
             log_error(f"Error details: {type(e).__name__}")
             raise ServerError(error=InternalError()) from e
-
-def create_agent():
-    """Create and configure the OpenAI agent server."""
-    log_system_event("Creating OpenAI Agent server")
-    agent_card = AgentCard(
-        name="OpenAI Agent",
-        url="http://localhost:9999",
-        description="Simple OpenAI GPT-4 wrapper agent",
-        version="1.0",
-        capabilities=AgentCapabilities(
-            streaming=True,
-            tools=True,  # Enable tools support
-            task_execution=True  # Enable task execution
-        ),
-        defaultInputModes=["text/plain"],
-        defaultOutputModes=["text/plain"],
-        skills=[
-            AgentSkill(
-                id="general_assistant",
-                name="General Assistant",
-                description="Provides helpful responses to general queries using GPT-4",
-                tags=["general", "assistant", "gpt4"],
-                examples=[
-                    "What is machine learning?",
-                    "How do I write a Python function?",
-                    "Explain quantum computing"
-                ]
-            )
-        ]
-    )
-    return create_agent_a2a_server(OpenAIAgentExecutor(), agent_card)
+    async def cancel(self, context: RequestContext, event_queue: EventQueue) -> None:
+        raise Exception("cancel not supported")
 
 def main():
     """Run the OpenAI agent server."""
     log_agent_start("OpenAI Agent", 9999)
-    asyncio.run(run_server(create_agent, 9999, "OpenAI Agent"))
+    node = Node(host="127.0.0.1", port=9999, node_id="openai-agent")
+    app = Node.create_server(OpenAIAgentExecutor(), agent_card)
+    node.build_server(app, name="OpenAI Agent", daemon=False)
 
 if __name__ == "__main__":
     main()

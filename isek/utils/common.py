@@ -1,12 +1,3 @@
-import uvicorn
-import socket
-
-from a2a.server.apps import A2AStarletteApplication
-from a2a.server.request_handlers import DefaultRequestHandler
-from a2a.server.tasks import InMemoryTaskStore
-from a2a.types import AgentCard
-
-
 # Color codes for colorful logging
 class Colors:
     HEADER = "\033[95m"
@@ -31,55 +22,33 @@ class Colors:
     LIGHT_GRAY = "\033[37m"
 
 
-def create_agent_a2a_server(
-    agent_executor, agent_card: AgentCard
-) -> A2AStarletteApplication:
-    request_handler = DefaultRequestHandler(
-        agent_executor=agent_executor, task_store=InMemoryTaskStore()
-    )
-
-    app = A2AStarletteApplication(agent_card=agent_card, http_handler=request_handler)
-    return app
+# ---------------------------------------------------------------------------
+# Internal helpers
+# ---------------------------------------------------------------------------
+# NOTE: Keep these small utilities above the public logging helpers so they
+# are available everywhere below.
 
 
-async def run_server(create_agent_function, port: int, name: str):
-    try:
-        app = create_agent_function()
+def _caller_info() -> str:
+    """Return the *caller* filename and line-number in unified colored format.
 
-        config = uvicorn.Config(
-            app.build(), host="127.0.0.1", port=port, log_level="error", loop="asyncio"
-        )
+    We step three frames up the stack so that the reported location always
+    corresponds to the original call-site and not to the internals of the
+    logging helpers themselves.
+    """
+    import traceback
+    import os
 
-        server = uvicorn.Server(config)
-
-        log_a2a_api_call(
-            "server.serve()", f"server: {name}, port: {port}, host: 127.0.0.1"
-        )
-        await server.serve()
-    except Exception as e:
-        log_error(f"run_server() error: {e} - name: {name}, port: {port}")
-
-
-def is_port_in_use(port: int, host: str = "127.0.0.1") -> bool:
-    """Return True if a TCP port is already bound on the given host."""
-    try:
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            sock.settimeout(0.2)
-            return sock.connect_ex((host, port)) == 0
-    except Exception:
-        return False
+    frame = traceback.extract_stack()[-4]  # see docstring for frame math
+    filename = os.path.basename(frame.filename)
+    return f"{Colors.OKCYAN}{filename}:{frame.lineno}{Colors.ENDC}"
 
 
 def log_a2a_protocol(
     message: str, direction: str = "→", sender: str = "", receiver: str = ""
 ):
     """Log A2A protocol messages with special formatting."""
-    import traceback
-
-    caller = traceback.extract_stack()[-2]
-    caller_info = (
-        f"{Colors.OKCYAN}{caller.filename.split('/')[-1]}:{caller.lineno}{Colors.ENDC}"
-    )
+    caller_info = _caller_info()
 
     if direction == "→":
         if sender and receiver:
@@ -112,12 +81,7 @@ def log_a2a_protocol(
 
 def log_a2a_api_call(api_name: str, details: str = ""):
     """Log A2A API calls specifically."""
-    import traceback
-
-    caller = traceback.extract_stack()[-2]
-    caller_info = (
-        f"{Colors.OKCYAN}{caller.filename.split('/')[-1]}:{caller.lineno}{Colors.ENDC}"
-    )
+    caller_info = _caller_info()
     print(
         f"{Colors.OKCYAN}[A2A API]{Colors.ENDC} {caller_info} | {Colors.HEADER}{api_name}{Colors.ENDC} | {Colors.OKBLUE}{details}{Colors.ENDC}"
     )
@@ -125,12 +89,7 @@ def log_a2a_api_call(api_name: str, details: str = ""):
 
 def log_a2a_function_call(function_name: str, details: str = ""):
     """Log A2A function calls specifically."""
-    import traceback
-
-    caller = traceback.extract_stack()[-2]
-    caller_info = (
-        f"{Colors.OKCYAN}{caller.filename.split('/')[-1]}:{caller.lineno}{Colors.ENDC}"
-    )
+    caller_info = _caller_info()
     print(
         f"{Colors.HEADER}[A2A FUNC]{Colors.ENDC} {caller_info} | {Colors.HEADER}{function_name}{Colors.ENDC} | {Colors.OKBLUE}{details}{Colors.ENDC}"
     )
@@ -138,10 +97,7 @@ def log_a2a_function_call(function_name: str, details: str = ""):
 
 def log_error(message: str):
     """Log error message with red color."""
-    import traceback
-
-    caller = traceback.extract_stack()[-2]
-    caller_info = f"{Colors.LIGHT_GRAY}{caller.filename.split('/')[-1]}:{caller.lineno}{Colors.ENDC}"
+    caller_info = f"{Colors.LIGHT_GRAY}{_caller_info()}{Colors.ENDC}"
     print(
         f"{Colors.LIGHT_RED}[ERROR]{Colors.ENDC} {caller_info} | {Colors.LIGHT_RED}{message}{Colors.ENDC}"
     )
@@ -149,12 +105,7 @@ def log_error(message: str):
 
 def log_agent_start(agent_name: str, port: int = None):
     """Log when an agent starts."""
-    import traceback
-
-    caller = traceback.extract_stack()[-2]
-    caller_info = (
-        f"{Colors.OKCYAN}{caller.filename.split('/')[-1]}:{caller.lineno}{Colors.ENDC}"
-    )
+    caller_info = _caller_info()
     port_info = f" on port {port}" if port else ""
     print(
         f"{Colors.OKGREEN}[AGENT START]{Colors.ENDC} {caller_info} | {Colors.BOLD}{agent_name}{Colors.ENDC}{port_info}"
@@ -163,12 +114,7 @@ def log_agent_start(agent_name: str, port: int = None):
 
 def log_agent_activity(agent_name: str, activity: str):
     """Log agent activity/status updates."""
-    import traceback
-
-    caller = traceback.extract_stack()[-2]
-    caller_info = (
-        f"{Colors.OKCYAN}{caller.filename.split('/')[-1]}:{caller.lineno}{Colors.ENDC}"
-    )
+    caller_info = _caller_info()
     print(
         f"{Colors.PURPLE}[AGENT]{Colors.ENDC} {caller_info} | {Colors.BOLD}{agent_name}{Colors.ENDC}: {Colors.OKBLUE}{activity}{Colors.ENDC}"
     )
@@ -176,12 +122,7 @@ def log_agent_activity(agent_name: str, activity: str):
 
 def log_agent_request(agent_name: str, query: str, context_id: str = None):
     """Log when an agent receives a request."""
-    import traceback
-
-    caller = traceback.extract_stack()[-2]
-    caller_info = (
-        f"{Colors.OKCYAN}{caller.filename.split('/')[-1]}:{caller.lineno}{Colors.ENDC}"
-    )
+    caller_info = _caller_info()
     context_info = f" [ctx:{context_id}]" if context_id else ""
     query_preview = query[:50] + "..." if len(query) > 50 else query
     print(
@@ -191,12 +132,7 @@ def log_agent_request(agent_name: str, query: str, context_id: str = None):
 
 def log_agent_response(agent_name: str, status: str, context_id: str = None):
     """Log agent response status."""
-    import traceback
-
-    caller = traceback.extract_stack()[-2]
-    caller_info = (
-        f"{Colors.OKCYAN}{caller.filename.split('/')[-1]}:{caller.lineno}{Colors.ENDC}"
-    )
+    caller_info = _caller_info()
     context_info = f" [ctx:{context_id}]" if context_id else ""
     print(
         f"{Colors.LIGHT_GREEN}[AGENT RESP]{Colors.ENDC} {caller_info} | {Colors.BOLD}{agent_name}{Colors.ENDC}{context_info}: {Colors.WARNING}{status}{Colors.ENDC}"
@@ -205,12 +141,7 @@ def log_agent_response(agent_name: str, status: str, context_id: str = None):
 
 def log_system_event(event: str, details: str = ""):
     """Log system-level events."""
-    import traceback
-
-    caller = traceback.extract_stack()[-2]
-    caller_info = (
-        f"{Colors.OKCYAN}{caller.filename.split('/')[-1]}:{caller.lineno}{Colors.ENDC}"
-    )
+    caller_info = _caller_info()
     details_info = f" | {details}" if details else ""
     print(
         f"{Colors.HEADER}[SYSTEM]{Colors.ENDC} {caller_info} | {Colors.BOLD}{event}{Colors.ENDC}{details_info}"
