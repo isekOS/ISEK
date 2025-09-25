@@ -52,7 +52,7 @@ async def get_agent_card(agent_url: str) -> dict:
 
 
 # Example usage
-# print(asyncio.run(query_agent("Hello, how are you?")))
-print(asyncio.run(get_agent_card(agent_urls[0])))
+print(asyncio.run(query_agent("Hello, how are you?")))
+# print(asyncio.run(get_agent_card(agent_urls[0])))
 
 
