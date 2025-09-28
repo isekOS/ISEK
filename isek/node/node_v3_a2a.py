@@ -16,6 +16,7 @@ from isek.utils.common import log_a2a_api_call, log_error
 from uuid import uuid4
 from a2a.types import Message, Part, Role, TextPart
 import asyncio
+from isek.web3.isek_identiey import ensure_identity
 
 # Alias for consistency with other modules
 logger = log
@@ -161,6 +162,30 @@ class Node(ABC):
 
     @staticmethod
     def create_server(agent_executor, agent_card: AgentCard) -> A2AStarletteApplication:
+        """Create the A2A application and ensure wallet/identity for the agent.
+
+        This will:
+        - Create or load a wallet scoped to ``agent_card.name``
+        - Resolve or register an on-chain identity, if registry settings are provided
+        """
+        # Ensure wallet + identity, without preventing server startup on failure
+        try:
+            address, agent_id, tx_hex = ensure_identity(agent_card)
+            if agent_id:
+                logger.info(
+                    "[create_server] Wallet ready: %s; on-chain agentId=%s%s",
+                    address,
+                    agent_id,
+                    f" (tx={tx_hex})" if tx_hex else "",
+                )
+            else:
+                logger.info(
+                    "[create_server] Wallet ready: %s; identity not registered or registry not configured",
+                    address,
+                )
+        except Exception as e:
+            logger.info("[create_server] Wallet/identity setup skipped: %s", e)
+
         request_handler = DefaultRequestHandler(
             agent_executor=agent_executor, task_store=InMemoryTaskStore()
         )

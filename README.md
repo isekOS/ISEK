@@ -74,6 +74,51 @@ OPENAI_BASE_URL=https://api.openai.com/v1
 OPENAI_API_KEY=your_api_key
 ```
 
+### Wallet & Identity
+
+ISEK now uses a simple local wallet manager and an ERC-8004 identity flow.
+
+- Wallets are stored in `isek/web3/wallet.{NETWORK}.json` by default.
+- ABI path is relative by default: `isek/web3/abi/IdentityRegistry.json`.
+- Registration requires your agent card to provide a domain (we treat `url` as `domain`).
+
+Add these keys to your `.env` (adjust for your network):
+
+```env
+# Network and chain
+NETWORK=base-sepolia
+ISEK_RPC_URL=https://sepolia.base.org
+ISEK_CHAIN_ID=84532
+
+# Identity contract
+ISEK_IDENTITY_REGISTRY_ADDRESS=0xYourRegistryAddress
+ISEK_IDENTITY_ABI_PATH=isek/web3/abi/IdentityRegistry.json
+
+# Optional
+ISEK_NETWORK_NAME=ISEK test network
+ISEK_MAX_PRIORITY_FEE_GWEI=1
+ISEK_EXPLORER_TX_URL_TEMPLATE=https://sepolia.basescan.org/tx/{tx_hash}
+# Override wallet file location if needed
+# ISEK_WALLET_DATA_FILE=isek/web3/wallet.base-sepolia.json
+```
+
+Register or resolve your agent identity:
+
+```python
+from isek.web3.isek_identiey import ensure_identity
+
+# Any object with .name and .domain (or .url) works
+agent_card = type("Card", (), {"name": "My Agent", "domain": "http://agent.isek.xyz"})()
+
+address, agent_id, tx_hash = ensure_identity(agent_card)
+print("wallet:", address, "agent_id:", agent_id, "tx:", tx_hash)
+```
+
+Notes:
+- If the registry address or ABI are not set, the function returns your wallet address and skips on-chain registration.
+- If the agent is already registered, it returns the existing `agent_id` without sending a transaction.
+
+
 ### Launch Agent
 
 ```python

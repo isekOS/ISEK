@@ -151,3 +151,16 @@ node_modules/
 package-lock.json
 .chainlit/
 chainlit.md
+
+# Local editor/AI settings
+.claude/
+
+# Local wallets (per-network) and legacy wallet file
+isek/web3/wallet*.json
+
+# NPM cache/config in protocol
+isek/protocol/p2p/.npm-cache/
+isek/protocol/p2p/.npmrc
+
+# Local documents not intended for version control
+PRODUCT_REQUIREMENTS_DOCUMENT.md
