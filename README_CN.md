@@ -135,7 +135,7 @@ isek/
 
 ## 🌟 给我们 Star 吧 😉
 
-<img src="/Users/haowenxia/PycharmProjects/ISEK/assets/star_gif.gif" alt="star_gif" style="zoom:67%;" />
+<img src="assets/star_gif.gif" alt="hippo" width="250"/>
 
 ---
 
