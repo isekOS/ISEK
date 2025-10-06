@@ -37,6 +37,7 @@ dependencies = [
     "rich",
     "fastmcp",
     "a2a-sdk",
+    "aiortc"
 ]
 
 [project.scripts]
