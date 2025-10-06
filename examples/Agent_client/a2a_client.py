@@ -13,8 +13,7 @@ logger = get_logger(__name__)
 AGENT_CARDS_DIR = 'agent_cards'
 MODEL = 'text-embedding-ada-002'
 
-agent_urls = ['http://localhost:9999', # openai agent
-            ]
+agent_url = 'http://localhost:8000'
 
 AGENT_CARD_WELL_KNOWN_PATH = "/.well-known/agent.json"  # kept for compatibility
 
@@ -28,9 +27,9 @@ async def query_agent(query: str) -> str:
         str: The content of the task result.
     """
     # Instantiate a lightweight Node (acts as a client here)
-    node = Node(host="127.0.0.1", port=uuid4().int >> 112, node_id="a2a-client")
-    logger.info("[execute_task] Executing task on %s with query: %s", agent_urls[0], query)
-    message_content = await node.send_message(agent_urls[0], query)
+    node = Node(host="127.0.0.1", port=8888, node_id="a2a-client")
+    logger.info("[execute_task] Executing task on %s with query: %s",agent_url, query)
+    message_content = await node.send_message(agent_url, query)
     logger.info("[execute_task] Task result content: %s", message_content)
 
     return message_content
