@@ -1,37 +1,22 @@
 {
-  "name": "p2p-server",
+  "name": "p2p-sidecar",
+  "version": "0.2.0",
+  "private": true,
   "type": "module",
-  "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "dev": "node dist/index.js",
-    "build": "tsc"
+    "start": "node daemon.js",
+    "start:relay": "IS_RELAY=1 node daemon.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "engines": { "node": ">=20" },
   "dependencies": {
-    "@chainsafe/libp2p-noise": "^16.1.3",
-    "@chainsafe/libp2p-yamux": "^7.0.1",
-    "@libp2p/circuit-relay-v2": "^3.2.11",
-    "@libp2p/crypto": "^5.1.1",
-    "@libp2p/identify": "^3.0.29",
-    "@libp2p/interface": "^2.9.0",
-    "@libp2p/ping": "^2.0.29",
-    "@libp2p/webrtc": "^5.2.12",
-    "@libp2p/websockets": "^9.2.10",
-    "@multiformats/multiaddr": "^12.4.0",
-    "@types/node": "^22.15.2",
-    "express": "^5.1.0",
-    "it-length-prefixed-stream": "^2.0.1",
-    "libp2p": "^2.8.5",
-    "ts-node": "^10.9.2"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.1",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.3.3"
+    "libp2p": "^3.0.0",
+    "@libp2p/websockets": "^10.0.0",
+    "@libp2p/tcp": "^11.0.0",
+    "@chainsafe/libp2p-noise": "^16.0.0",
+    "@chainsafe/libp2p-yamux": "^7.0.0",
+    "@libp2p/identify": "^3.0.0",
+    "@libp2p/circuit-relay-v2": "^2.0.0",
+    "@libp2p/daemon-server": "^9.0.0",
+    "@multiformats/multiaddr": "^13.0.0"
   }
 }
