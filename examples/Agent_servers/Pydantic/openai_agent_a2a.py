@@ -2,8 +2,9 @@
 import dotenv
 from pydantic_ai import Agent
 from a2a.types import AgentCard, AgentCapabilities, AgentSkill
-from isek.utils.common import log_agent_start
+from isek.utils.common import log_agent_start, log_system_event
 from isek.node.node_v3_a2a import Node
+from isek.protocol.a2a_protocol_v2 import A2AProtocolV2
 from isek.adapter.pydantic_ai_adapter import PydanticAIAgentWrapper,PydanticAIAgentExecutor
 dotenv.load_dotenv()
 
@@ -46,6 +47,14 @@ def main():
     """Run the OpenAI agent server."""
     log_agent_start("OpenAI Agent", 9999)
     node = Node(host="127.0.0.1", port=9999, node_id="openai-agent")
+
+    # Optional: start p2p bridge for this server so that clients can reach it via p2p
+    # The p2p bridge will forward inbound requests to the local agent HTTP server at port 9999
+    p2p = A2AProtocolV2(host="127.0.0.1", port=9999, p2p_enabled=True, p2p_server_port=9001)
+    # Run blocking wait so we can print the peer address before starting the agent server
+    p2p.start_p2p_server(wait_until_ready=True)
+    log_system_event("[p2p] server", f"peer_id={p2p.peer_id}")
+    log_system_event("[p2p] server", f"p2p_address={p2p.p2p_address}")
     app = Node.create_server(agent_executor, agent_card)
     node.build_server(app, name="OpenAI Agent", daemon=False)
 
