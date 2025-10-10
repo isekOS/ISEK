@@ -125,7 +125,7 @@ class PydanticAIAgentExecutor(AgentExecutor):
         query = context.get_user_input()
         log_agent_activity(
             self.agent._agent_card.name,
-            f"Received execution request for context: {context.message.contextId}",
+            f"Received execution request for context: {context.message.context_id}",
         )
         log_agent_activity(self.agent._agent_card.name, f"Query: {query}")
 
@@ -133,12 +133,12 @@ class PydanticAIAgentExecutor(AgentExecutor):
         await event_queue.enqueue_event(task)
         log_agent_activity(self.agent._agent_card.name, f"Created new task: {task.id}")
 
-        updater = TaskUpdater(event_queue, task.id, task.contextId)
+        updater = TaskUpdater(event_queue, task.id, task.context_id)
         log_agent_activity(self.agent._agent_card.name, "Created task updater")
 
         try:
             log_agent_activity(self.agent._agent_card.name, "Starting agent stream")
-            async for item in self.agent.stream(query, task.contextId):
+            async for item in self.agent.stream(query, task.context_id):
                 log_agent_activity(
                     self.agent._agent_card.name, f"Received stream item: {item}"
                 )
@@ -146,7 +146,7 @@ class PydanticAIAgentExecutor(AgentExecutor):
                 require_user_input = item["require_user_input"]
                 content = item["content"]
 
-                message = new_agent_text_message(content, task.contextId, task.id)
+                message = new_agent_text_message(content, task.context_id, task.id)
 
                 if is_task_complete:
                     log_agent_activity(

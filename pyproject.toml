@@ -41,7 +41,9 @@ dependencies = [
     "rich",
     "fastmcp",
     "a2a-sdk",
-    "aiortc"
+    "aiortc",
+    "pydantic-ai",
+    "httpx",
 ]
 
 [project.scripts]

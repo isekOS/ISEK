@@ -51,6 +51,10 @@ ERC-8004 provides a decentralized framework for identity, reputation, and valida
 
 ## 🚀 Quick Start
 
+```bash
+python3 -m venv isek_env && source isek_env/bin/activate
+```
+
 ### Installation
 ```bash
 pip install isek
