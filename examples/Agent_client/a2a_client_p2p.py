@@ -6,10 +6,7 @@ import dotenv
 
 from isek.node.node_v3_a2a import Node
 from isek.protocol.a2a_protocol_v2 import A2AProtocolV2
-from isek.utils.common import log_agent_request
-from isek.utils.common import log_agent_response
 from isek.utils.common import log_system_event
-from isek.utils.common import log_a2a_protocol
 
 dotenv.load_dotenv()
 
@@ -18,9 +15,7 @@ MODEL = 'text-embedding-ada-002'
 
 # P2P address of the agent server change every time the server is restarted， copy it from the server's output
 #TODO make it configurable
-server_p2p_address = '/ip4/127.0.0.1/tcp/9090/ws/p2p/12D3KooWRu2NGqqqTtxpQfoyMHqarRRG5aV9633pWSZAdBYcQn5d/p2p-circuit/p2p/12D3KooWCZBZJAxxVAT2jt4dgqPB4rRjFcNVYZ2aZQTM3Tz3gBun'
-
-
+server_p2p_address = '/ip4/155.138.145.190/tcp/9090/ws/p2p/12D3KooWShd5s1ziziZNkiqN56XVpWH3chZHeq7EeSzHKMzR12vf/p2p-circuit/p2p/12D3KooWC1HnDFLK3aKTGJNaXYaPdx9auS7osCpNnA6xrx9ERBTS'
 AGENT_CARD_WELL_KNOWN_PATH = "/.well-known/agent.json"  # kept for compatibility
 
 async def query_agent(query: str) -> str:
