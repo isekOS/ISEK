@@ -13,9 +13,9 @@ dotenv.load_dotenv()
 AGENT_CARDS_DIR = 'agent_cards'
 MODEL = 'text-embedding-ada-002'
 
-# P2P address of the agent server change every time the server is restarted， copy it from the server's output
+# Peer ID of the agent server - copy it from the server's output
 #TODO make it configurable
-server_p2p_address = '/ip4/155.138.145.190/tcp/9090/ws/p2p/12D3KooWShd5s1ziziZNkiqN56XVpWH3chZHeq7EeSzHKMzR12vf/p2p-circuit/p2p/12D3KooWC1HnDFLK3aKTGJNaXYaPdx9auS7osCpNnA6xrx9ERBTS'
+server_peer_id = '12D3KooWKmxiCWj7LasXfYrdmkZmL6WSHro4sCikH6kut46ph9JN'
 AGENT_CARD_WELL_KNOWN_PATH = "/.well-known/agent.json"  # kept for compatibility
 
 async def query_agent(query: str) -> str:
@@ -27,17 +27,25 @@ async def query_agent(query: str) -> str:
     Returns:
         str: The content of the task result.
     """
-    p2p = A2AProtocolV2(host="127.0.0.1", port=8888, p2p_enabled=True, p2p_server_port=9002)
+    p2p = A2AProtocolV2(
+        host="127.0.0.1", 
+        port=8888, 
+        p2p_enabled=True, 
+        p2p_server_port=9002,
+        relay_ip="155.138.145.190",
+        relay_peer_id="12D3KooWShd5s1ziziZNkiqN56XVpWH3chZHeq7EeSzHKMzR12vf"
+    )
     p2p.start_p2p_server(wait_until_ready=True)
     log_system_event("[p2p] client", f"peer_id={p2p.peer_id}")
     log_system_event("[p2p] client", f"p2p_address={p2p.p2p_address}")
 
     # Use local p2p bridge HTTP to call the remote peer
-    log_system_event("[p2p] client", f"Sending message to {server_p2p_address}")
+    log_system_event("[p2p] client", f"Sending message to peer {server_peer_id}")
     log_system_event("[p2p] client", f"Query: {query}")
+    
     resp = p2p.send_message(
         sender_node_id="a2a-client",
-        receiver_p2p_address=server_p2p_address,
+        receiver_peer_id=server_peer_id,
         message=query,
     )
     log_system_event("[p2p] client", f"Response: {resp}")

@@ -31,6 +31,8 @@ class A2AProtocolV2:
         port: int = 8080,
         p2p_enabled: bool = False,
         p2p_server_port: int = 9000,
+        relay_ip: str = "",
+        relay_peer_id: str = "",
     ) -> None:
         if not isinstance(port, int) or not (0 < port < 65536):
             raise ValueError(f"Invalid agent port: {port}")
@@ -41,6 +43,8 @@ class A2AProtocolV2:
         self.port = port
         self.p2p_enabled = p2p_enabled
         self.p2p_server_port = p2p_server_port
+        self.relay_ip = relay_ip
+        self.relay_peer_id = relay_peer_id
 
         self.peer_id: Optional[str] = None
         self.p2p_address: Optional[str] = None
@@ -71,6 +75,8 @@ class A2AProtocolV2:
                 p2p_file_path,
                 f"--port={self.p2p_server_port}",
                 f"--agent_port={self.port}",
+                f"--relay_ip={self.relay_ip}",
+                f"--relay_peer_id={self.relay_peer_id}",
             ],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
@@ -131,13 +137,21 @@ class A2AProtocolV2:
 
     # ------------------------------- Messaging -------------------------------
     def send_message(
-        self, sender_node_id: str, receiver_p2p_address: str, message: str
+        self, sender_node_id: str, receiver_peer_id: str, message: str
     ) -> dict[str, Any]:
         """
         Send a JSON-RPC 2.0 'message/send' request via the local p2p bridge.
 
+        Args:
+            sender_node_id: ID of the sender node
+            receiver_peer_id: Peer ID of the receiver (not full p2p address)
+            message: Message content to send
+
         Returns the full JSON-RPC response body, mirroring standard A2A.
         """
+        # Construct the p2p address using relay information
+        receiver_p2p_address = f"/ip4/{self.relay_ip}/tcp/9090/ws/p2p/{self.relay_peer_id}/p2p-circuit/p2p/{receiver_peer_id}"
+
         request_body = self._build_jsonrpc_send_message_request(sender_node_id, message)
         response = httpx.post(
             url=(
