@@ -24,24 +24,28 @@ const WEBRTC_CODE = protocols('webrtc').code
 export const CHAT_PROTOCOL = '/libp2p/examples/chat/1.0.0'
 const QUERY_PATH = '/query'
 
-// 从命令行参数读取端口
+// 从命令行参数读取端口和relay信息
 const args = process.argv.slice(2);
 const portArg = args.find(arg => arg.startsWith('--port='));
 const agentPortArg = args.find(arg => arg.startsWith('--agent_port='));
-if (!portArg || !agentPortArg) {
-  console.error(`Usage: node ${process.argv[1]} --port=<port_number> --agent_port=<agent_port_number>`);
+const relayIpArg = args.find(arg => arg.startsWith('--relay_ip='));
+const relayPeerIdArg = args.find(arg => arg.startsWith('--relay_peer_id='));
+
+if (!portArg || !agentPortArg || !relayIpArg || !relayPeerIdArg) {
+  console.error(`Usage: node ${process.argv[1]} --port=<port_number> --agent_port=<agent_port_number> --relay_ip=<relay_ip> --relay_peer_id=<relay_peer_id>`);
   process.exit(1);
 }
 const p2p_server_port = parseInt(portArg.split('=')[1], 10);
 const isek_agent_port = parseInt(agentPortArg.split('=')[1], 10);
+const relay_ip = relayIpArg.split('=')[1];
+const relay_peer_id = relayPeerIdArg.split('=')[1];
 
 // 解决 __dirname 在 ES6 中不可用的问题
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// const RELAY_ADDRESS = '/ip4/45.32.115.124/tcp/9090/ws/p2p/12D3KooWEm7y24CfhEUAvNcQH1osnwhHt3ibGYZdKdLpezQt1r4Y'
- const RELAY_ADDRESS = '/ip4/47.236.116.81/tcp/43923/ws/p2p/12D3KooWDxDRwD5wyQ1hdZpioaEEWofuJm8sEzPghDynMJM1RCsP'
-//const RELAY_ADDRESS = '/ip4/127.0.0.1/tcp/52533/ws/p2p/12D3KooWEDRrjHdsGA1kKYgUYKQtahYz2GguQB8aiFn3i5qZJAv4'
+// 动态构建RELAY_ADDRESS
+const RELAY_ADDRESS = `/ip4/${relay_ip}/tcp/9090/ws/p2p/${relay_peer_id}`
 
 class P2PNode {
   constructor(name) {
