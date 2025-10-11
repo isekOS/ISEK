@@ -21,6 +21,7 @@ dependencies = [
     "uvicorn",
     "rich",
     "python-dotenv",
+    "pre-commit",
     
     # A2A protocol dependencies
     "a2a-sdk",
