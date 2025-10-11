@@ -56,12 +56,12 @@ class PydanticAIAgentWrapper:
             log_agent_response(
                 self._agent_card.name, "Task completed successfully", context_id
             )
-            log_agent_response(self._agent_card.name, "content", response.output)
+            log_agent_response(self._agent_card.name, "content", response)
 
             return {
                 "is_task_complete": True,
                 "require_user_input": False,
-                "content": response.output,
+                "content": response,
             }
         except Exception as exc:  # noqa: BLE001
             error_msg = f"Error during invoke: {exc}"
@@ -95,11 +95,11 @@ class PydanticAIAgentWrapper:
             log_agent_response(
                 self._agent_card.name, "Task completed successfully", context_id
             )
-            log_agent_response(self._agent_card.name, "content", response.output)
+            log_agent_response(self._agent_card.name, "content", response)
             yield {
                 "is_task_complete": True,
                 "require_user_input": False,
-                "content": response.output,
+                "content": response,
             }
 
         except Exception as exc:

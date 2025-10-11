@@ -15,7 +15,7 @@ MODEL = 'text-embedding-ada-002'
 
 # Peer ID of the agent server - copy it from the server's output
 #TODO make it configurable
-server_peer_id = '12D3KooWKmxiCWj7LasXfYrdmkZmL6WSHro4sCikH6kut46ph9JN'
+server_peer_id = '12D3KooWNxWoUFmXXFBE65b99pfwMsW1yWWJmpKMbkiVRjCNERSb'
 AGENT_CARD_WELL_KNOWN_PATH = "/.well-known/agent.json"  # kept for compatibility
 
 async def query_agent(query: str) -> str:
