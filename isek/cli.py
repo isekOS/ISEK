@@ -61,14 +61,6 @@ def clean():
 
 
 @cli.command()
-def registry():
-    """Start local development registry"""
-    from isek.isek_center import main
-
-    main()
-
-
-@cli.command()
 def setup():
     """Install ISEK Python and JavaScript dependencies"""
     project_root = Path(__file__).parent.parent
@@ -144,7 +136,16 @@ def setup():
             click.secho("   P2P functionality may not work correctly", fg="yellow")
 
     click.secho("🎉 ISEK setup completed successfully!", fg="green")
-    click.secho("   You can now run examples with 'isek example run <name>'", fg="blue")
+    click.secho("   You can now run relay with 'isek run_relay'", fg="blue")
+
+
+@cli.command()
+def run_relay():
+    """Run relay"""
+    subprocess.run(
+        ["node", "isek/protocol/p2p/relay.js"], check=True, capture_output=True
+    )
+    click.secho("✓ Relay started", fg="green")
 
 
 @cli.group()
