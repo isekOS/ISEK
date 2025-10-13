@@ -31,7 +31,7 @@ dependencies = [
     
     # Web3/Ethereum dependencies
     "web3>=6.0.0",
-    "eth-account>=0.9.0",
+    "eth-account>=0.8.0,<0.9.0",
 ]
 
 [project.scripts]
