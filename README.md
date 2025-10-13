@@ -151,9 +151,11 @@ In the examples folder, follow the examples from level 1 to level 10, and you sh
 ## 🧪 CLI Commands
 
 ```bash
-isek setup       # Install Python and JavaScript dependencies
-isek clean       # Clean temporary files
-isek --help      # View available commands
+isek setup            # Install Python and JavaScript dependencies
+isek clean            # Clean temporary files
+isek run relay        # Start a libp2p circuit relay server (default port: 9090)
+isek run relay --port=8080  # Start relay on custom port
+isek --help           # View available commands
 ```
 
 ---
