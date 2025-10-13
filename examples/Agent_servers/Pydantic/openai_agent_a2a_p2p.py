@@ -58,7 +58,7 @@ def main():
         p2p_enabled=True, 
         p2p_server_port=9001,
         relay_ip="155.138.145.190",
-        relay_peer_id="12D3KooWShd5s1ziziZNkiqN56XVpWH3chZHeq7EeSzHKMzR12vf"
+        relay_peer_id="12D3KooWAom1Up6ZmpWgCSZGU5miehN5j2fczRNaiPUU4ZqmSCJq"
     )
     # Run blocking wait so we can print the peer address before starting the agent server
     p2p.start_p2p_server(wait_until_ready=True)
