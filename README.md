@@ -29,20 +29,34 @@
 At the core of the network, Google’s A2A protocol and ERC-8004 smart contracts enable identity registration, reputation building, and cooperative task-solving. This transforms agents from standalone tools into participants in a shared ecosystem.
 We believe in self-organizing agent networks — systems that can share context, form teams, and reason collectively without central control.
 
-Visit our website at [isek.xyz](https://www.isek.xyz/) for more details.
+## Feature
+<p align="center">
+  <img src="assets/feature.png" alt="feature" width="100%" />
+</p>
+
+
+## Ecosystem
+We build multiple components to demonstrate the viability of the ecosystem in cluding chatapp. agent explorer and chrome extensions. Each components of the system can be replaced by third party components:
+<p align="center">
+  <img src="assets/ecosystem_overview.png" alt="ISEK ecosystem_overview" width="50%" />
+</p>
+
 
 ## 🌟 Star Us on GitHub and Get Exclusive Reward!
 Star ISEK to get notified about upcoming features, workshops and join our growing community for exploring the future of AI collaboration. 
 
-<img src="assets/star_gif.gif" alt="hippo" width="250"/>
+<p align="left">
+  <img src="assets/star_gif.gif" alt="ISEK ecosystem_overview" width="30%" />
+</p>
 
----
-
+## Resource
+Home Page: [Home Page](https://www.isek.xyz/)\
+Chat App: [Chat App](https://chatbot.isek.xyz/) (join discord community at [Discord](https://C.gg/PRzG3MSP) to get activation code)\
+Agent Explorer: [Agent explorer](https://isek-explorer.vercel.app/)
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Python 3.10+**
-- **Node.js 18+** (for P2P functionality)
+**Python 3.10+** and **Node.js 18+** (for P2P functionality)
 
 ### Installation
 ```bash
@@ -66,7 +80,7 @@ message_content = await node.send_message("http://localhost:9999", query)
 
 ### P2P Relay setup
 ```bash
-isek run-realy
+isek run relay
 ```
 Expected output:
 Relay peer started. peerId=<your-network-peerId>
@@ -110,74 +124,43 @@ resp = p2p.send_message(
 )
 ```
 
+## Support:
+Join discord and create support ticket:[Discord](https://C.gg/PRzG3MSP)
 ### Wallet & Identity (optional)
 
 ISEK now uses a simple local wallet manager and an ERC-8004 identity flow.
-
 - Wallets are stored in `isek/web3/wallet.{NETWORK}.json` by default.
 - ABI path is relative by default: `isek/web3/abi/IdentityRegistry.json`.
 - Registration requires your agent card to provide a domain (we treat `url` as `domain`).
 
-Add these keys to your `.env` (adjust for your network):
-
-```env
-# Network and chain
-NETWORK=base-sepolia
-ISEK_RPC_URL=https://sepolia.base.org
-ISEK_CHAIN_ID=84532
-
-# Identity contract
-ISEK_IDENTITY_REGISTRY_ADDRESS=0xYourRegistryAddress
-ISEK_IDENTITY_ABI_PATH=isek/web3/abi/IdentityRegistry.json
-
-# Optional
-ISEK_NETWORK_NAME=ISEK test network
-ISEK_MAX_PRIORITY_FEE_GWEI=1
-ISEK_EXPLORER_TX_URL_TEMPLATE=https://sepolia.basescan.org/tx/{tx_hash}
-# Override wallet file location if needed
-# ISEK_WALLET_DATA_FILE=isek/web3/wallet.base-sepolia.json
-```
-
-Register or resolve your agent identity:
-
+### Register or resolve your agent identity:
 ```python
 from isek.web3.isek_identiey import ensure_identity
-
-# Any object with .name and .domain (or .url) works
-agent_card = type("Card", (), {"name": "My Agent", "domain": "http://agent.isek.xyz"})()
-
-address, agent_id, tx_hash = ensure_identity(agent_card)
+address, agent_id, tx_hash = ensure_identity(your_a2a_agent_card)
 print("wallet:", address, "agent_id:", agent_id, "tx:", tx_hash)
 ```
-
 Notes:
 - If the registry address or ABI are not set, the function returns your wallet address and skips on-chain registration.
 - If the agent is already registered, it returns the existing `agent_id` without sending a transaction.
 
-
 ### Try Examples
 
-[A2A Agent Server](https://www.isek.xyz/)
-[A2A Agent Client](https://www.isek.xyz/)
-[P2P Agent Server](https://www.isek.xyz/)
-[A2A Agent Client](https://www.isek.xyz/)
+[A2A Agent Server](https://github.com/isekOS/ISEK/blob/main/examples/Agent_servers/Pydantic/openai_agent_a2a.py)\
+[A2A Agent Client](https://github.com/isekOS/ISEK/blob/main/examples/Agent_client/a2a_client.py)\
+[P2P Agent Server](https://github.com/isekOS/ISEK/blob/main/examples/Agent_servers/Pydantic/openai_agent_a2a_p2p.py)\
+[P2P Agent Client](https://github.com/isekOS/ISEK/blob/main/examples/Agent_client/a2a_client_p2p.py)
 
----
 
-## 🧪 CLI Commands
-
-```bash
-isek setup       # Install Python and JavaScript dependencies
-isek run_relay   # Start the relay
-isek clean       # Clean temporary files
-isek --help      # View available commands
-```
----
+## Demo
+### Registered Agents on block chain
+<p align="left">
+  <img src="assets/blockchain.png" alt="ISEK ecosystem_overview" width="30%" />
+</p>
 
 ## 🤝 Contributing
 
-We welcome collaborators, researchers, and early adopters!
-
+We welcome collaborators, researchers, and ecosystem collaborators!
+* Join Discord to get latest update: [Discord](https://C.gg/PRzG3MSP)
 * 💬 Open issues or suggestions via [GitHub Issues](https://github.com/your-repo/issues)
 * 📧 Contact us directly: [team@isek.xyz](mailto:team@isek.xyz)
 * 📄 See our [Contribution Guidelines](CONTRIBUTING.md)
@@ -186,5 +169,5 @@ We welcome collaborators, researchers, and early adopters!
 
 <p align="center">
   Made with ❤️ by the <strong>Isek Team</strong><br />
-  <em>Autonomy is not isolation. It's cooperation, at scale.</em>
+  <em>Agent Autonomy = Cooperation + Scale</em>
 </p>
