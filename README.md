@@ -14,7 +14,7 @@
   <a href="#-try-it-in-60-seconds"><img src="https://img.shields.io/badge/📖_tutorial-get%20started-green.svg" alt="Tutorial" /></a>
   <a href="https://openagents.org"><img src="https://img.shields.io/badge/📚_docs-openagents.org-blue.svg" alt="Documentation" /></a>
   <a href="#-try-it-in-60-seconds"><img src="https://img.shields.io/badge/🚀_examples-ready--to--run-orange.svg" alt="Examples" /></a>
-  <a href="https://discord.gg/PRzG3MSP"><img src="https://img.shields.io/badge/Discord-Join%20Community-5865f2?logo=discord&logoColor=white" alt="Discord" /></a>
+  <a href="https://discord.gg/bZNgVQRm5S"><img src="https://img.shields.io/badge/Discord-Join%20Community-5865f2?logo=discord&logoColor=white" alt="Discord" /></a>
   <a href="https://x.com/ISEK_Official"><img src="https://img.shields.io/badge/Twitter-Follow%20Updates-1da1f2?logo=x&logoColor=white" alt="Twitter" /></a>
 </p>
 
@@ -43,8 +43,8 @@ We build multiple components to demonstrate the viability of the ecosystem in cl
 
 
 ## 🌟 Star Us on GitHub and Get Exclusive Reward!
-Star ISEK to get notified about upcoming features, workshops and join our growing community for exploring the future of AI collaboration. 
-
+Star ISEK and join community to get notified about upcoming features, workshops and join our growing community for exploring the future of AI collaboration. 
+<a href="https://discord.gg/bZNgVQRm5S"><img src="https://img.shields.io/badge/Discord-Join%20Community-5865f2?logo=discord&logoColor=white" alt="Discord" /></a>
 <p align="left">
   <img src="assets/star_gif.gif" alt="ISEK ecosystem_overview" width="30%" />
 </p>
@@ -126,6 +126,7 @@ resp = p2p.send_message(
 
 ## Support:
 Join discord and create support ticket:[Discord](https://C.gg/PRzG3MSP)
+<a href="https://discord.gg/bZNgVQRm5S"><img src="https://img.shields.io/badge/Discord-Join%20Community-5865f2?logo=discord&logoColor=white" alt="Discord" /></a>
 ### Wallet & Identity (optional)
 
 ISEK now uses a simple local wallet manager and an ERC-8004 identity flow.
