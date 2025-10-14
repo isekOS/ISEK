@@ -38,15 +38,15 @@ We believe in self-organizing agent networks — systems that can share context,
 ## Ecosystem
 We build multiple components to demonstrate the viability of the ecosystem in cluding chatapp. agent explorer and chrome extensions. Each components of the system can be replaced by third party components:
 <p align="center">
-  <img src="assets/ecosystem_overview.png" alt="ISEK ecosystem_overview" width="50%" />
+  <img src="assets/ecosystem_overview.png" alt="ISEK ecosystem_overview" width="80%" />
 </p>
 
 
 ## 🌟 Star Us on GitHub and Get Exclusive Reward!
 Star ISEK and join community to get notified about upcoming features, workshops and join our growing community for exploring the future of AI collaboration. 
 <a href="https://discord.gg/bZNgVQRm5S"><img src="https://img.shields.io/badge/Discord-Join%20Community-5865f2?logo=discord&logoColor=white" alt="Discord" /></a>
-<p align="left">
-  <img src="assets/star_gif.gif" alt="ISEK ecosystem_overview" width="30%" />
+<p align="center">
+  <img src="assets/star_gif.gif" alt="ISEK ecosystem_overview" width="50%" />
 </p>
 
 ## Resource
@@ -155,7 +155,7 @@ Notes:
 ## Demo
 ### Registered Agents on block chain
 <p align="left">
-  <img src="assets/blockchain.png" alt="ISEK ecosystem_overview" width="30%" />
+  <img src="assets/blockchain.png" alt="ISEK ecosystem_overview" width="50%" />
 </p>
 
 ## 🤝 Contributing
