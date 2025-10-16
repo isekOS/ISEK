@@ -142,7 +142,7 @@ class Node(ABC):
         """
 
         async def _runner():
-            await self.run_server(app, port=self.port, name=name)
+            await self.run_server(app, host=self.host, port=self.port, name=name)
 
         if not daemon:
             # Blocking – run the server in the current thread.
@@ -196,11 +196,16 @@ class Node(ABC):
         return app
 
     @staticmethod
-    async def run_server(app: A2AStarletteApplication, port: int, name: str):
+    async def run_server(
+        app: A2AStarletteApplication,
+        host: str = "127.0.0.1",
+        port: int = 8080,
+        name: str = "node",
+    ):
         try:
             config = uvicorn.Config(
                 app.build(),
-                host="127.0.0.1",
+                host=host,
                 port=port,
                 log_level="error",
                 loop="asyncio",
@@ -209,7 +214,7 @@ class Node(ABC):
             server = uvicorn.Server(config)
 
             log_a2a_api_call(
-                "server.serve()", f"server: {name}, port: {port}, host: 127.0.0.1"
+                "server.serve()", f"server: {name}, port: {port}, host: {host}"
             )
             await server.serve()
         except Exception as e:

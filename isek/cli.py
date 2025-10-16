@@ -61,14 +61,6 @@ def clean():
 
 
 @cli.command()
-def registry():
-    """Start local development registry"""
-    from isek.isek_center import main
-
-    main()
-
-
-@cli.command()
 def setup():
     """Install ISEK Python and JavaScript dependencies"""
     project_root = Path(__file__).parent.parent
@@ -144,7 +136,73 @@ def setup():
             click.secho("   P2P functionality may not work correctly", fg="yellow")
 
     click.secho("🎉 ISEK setup completed successfully!", fg="green")
-    click.secho("   You can now run examples with 'isek example run <name>'", fg="blue")
+    click.secho("   You can now run relay with 'isek run relay'", fg="blue")
+
+
+@cli.group()
+def run():
+    """Run ISEK servers and services"""
+
+
+@run.command()
+@click.option(
+    "--port", default=9090, type=int, help="Port for the relay server (default: 9090)"
+)
+def relay(port):
+    """Start a libp2p circuit relay server"""
+    import importlib.resources
+
+    # Find the p2p directory
+    try:
+        p2p_resource = importlib.resources.files("isek").joinpath("protocol/p2p")
+        p2p_dir = Path(str(p2p_resource))
+    except Exception:
+        # Fallback to development environment path
+        p2p_dir = Path(__file__).parent / "protocol" / "p2p"
+
+    relay_script = p2p_dir / "relay.js"
+
+    # Check if relay.js exists
+    if not relay_script.exists():
+        click.secho(f"✗ Relay script not found at {relay_script}", fg="red")
+        sys.exit(1)
+
+    # Check if Node.js is installed
+    try:
+        subprocess.run(["node", "--version"], check=True, capture_output=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        click.secho("✗ Node.js is required to run the relay server", fg="red")
+        click.secho("   Please install Node.js from https://nodejs.org/", fg="yellow")
+        sys.exit(1)
+
+    # Check if node_modules exists
+    if not (p2p_dir / "node_modules").exists():
+        click.secho("✗ JavaScript dependencies not installed", fg="red")
+        click.secho(
+            "   Please run 'isek setup' first to install dependencies", fg="yellow"
+        )
+        sys.exit(1)
+
+    # Validate port range
+    if port <= 0 or port >= 65536:
+        click.secho(f"✗ Invalid port: {port}. Must be between 1 and 65535", fg="red")
+        sys.exit(1)
+
+    click.secho(f"🚀 Starting libp2p relay server on port {port}...", fg="blue")
+    click.secho("   Press Ctrl+C to stop", fg="yellow")
+
+    # Run the relay server
+    try:
+        subprocess.run(
+            ["node", str(relay_script), f"--port={port}"],
+            cwd=p2p_dir,
+            check=True,
+        )
+    except KeyboardInterrupt:
+        click.secho("\n✓ Relay server stopped", fg="green")
+    except subprocess.CalledProcessError as e:
+        click.secho(f"\n✗ Relay server failed: {e}", fg="red")
+        sys.exit(e.returncode)
 
 
 @cli.group()
