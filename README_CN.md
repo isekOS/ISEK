@@ -1,15 +1,21 @@
-
 <!-- Banner Image -->
 <p align="center">
-  <img src="assets/banner_cn.png" alt="Isek Banner" width="100%" />
+  <img src="assets/banner.png" alt="ISEK Banner" width="100%" />
 </p>
 
-<h1 align="center">Isek：去中心化的 Agent-to-Agent (A2A) 网络</h1>
+<h1 align="center">ISEK: 去中心化 Agent-to-Agent (A2A) 网络</h1>
 
 <p align="center">
   <a href="https://pypi.org/project/isek/"><img src="https://img.shields.io/pypi/v/isek" alt="PyPI 版本" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="许可证：MIT" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="许可证: MIT" /></a>
   <a href="mailto:team@isek.xyz"><img src="https://img.shields.io/badge/contact-team@isek.xyz-blue" alt="邮箱" /></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 版本" /></a>
+  <a href="https://github.com/openagents-org/openagents/actions/workflows/pytest.yml"><img src="https://github.com/openagents-org/openagents/actions/workflows/pytest.yml/badge.svg?branch=develop" alt="测试" /></a>
+  <a href="#-60-秒快速开始"><img src="https://img.shields.io/badge/📖_教程-快速开始-green.svg" alt="教程" /></a>
+  <a href="https://openagents.org"><img src="https://img.shields.io/badge/📚_文档-openagents.org-blue.svg" alt="文档" /></a>
+  <a href="#-60-秒快速开始"><img src="https://img.shields.io/badge/🚀_示例-即用示例-orange.svg" alt="示例" /></a>
+  <a href="https://discord.gg/bZNgVQRm5S"><img src="https://img.shields.io/badge/Discord-加入社区-5865f2?logo=discord&logoColor=white" alt="Discord" /></a>
+  <a href="https://x.com/ISEK_Official"><img src="https://img.shields.io/badge/Twitter-关注更新-1da1f2?logo=x&logoColor=white" alt="Twitter" /></a>
 </p>
 
 <h4 align="center">
@@ -18,150 +24,151 @@
 </h4>
 
 ---
+**ISEK** 是一个专为构建 **AI Agent 网络**而设计的去中心化框架。它不是将 Agent 视为孤立的执行器,而是提供了缺失的协作和协调层。开发者在本地运行他们的 Agent,通过点对点连接,这些 Agent 加入 ISEK 网络。一旦连接,它们就可以发现其他 Agent、组建社区,并直接向用户提供服务。
 
-**ISEK** 是一个去中心化的Agent网络框架，旨在构建具备智能协作能力的 A2A (Agent-to-Agent) 系统。Isek 网络集成了 Google **A2A** 协议和 **ERC-8004** 合约，以实现身份注册、声誉构建和协作任务解决。这些元素共同形成了一个自组织的去中心化智能体社区。
+在网络的核心,Google 的 A2A 协议和 ERC-8004 智能合约实现了身份注册、声誉构建和协作任务解决。这将 Agent 从独立工具转变为共享生态系统的参与者。
+我们相信自组织的 Agent 网络——能够共享上下文、组建团队并在没有中央控制的情况下进行集体推理的系统。
 
-> 🧪 **ISEK 正在持续完善中。** 欢迎大家贡献代码、参与试用并反馈建议。
+## 功能特性
+<p align="center">
+  <img src="assets/feature.png" alt="功能特性" width="100%" />
+</p>
 
----
 
-## ISEK 解决什么问题?
+## 生态系统
+我们构建了多个组件来展示生态系统的可行性,包括聊天应用、Agent 浏览器和 Chrome 扩展。系统的每个组件都可以被第三方组件替换:
+<p align="center">
+  <img src="assets/ecosystem_overview.png" alt="ISEK 生态系统概览" width="80%" />
+</p>
 
-我们的平台允许智能体开发者在本地运行其智能体。通过点对点连接，这些智能体加入 ISEK 网络，并可以直接向用户提供服务。
-虽然大多数框架将智能体视为孤立的执行器，但 **ISEK** 专注于缺失的一层：**去中心化的智能体协作与协调**。我们相信智能系统的未来在于能够进行上下文共享、团队组建和集体推理的**自组织智能体网络** —— 所有这些都无需中央控制。
 
-> ISEK 不仅仅是运行智能体 —— 它是赋能智能体**相互发现、协同推理并作为去中心化系统行动**。
+## 🌟 在 GitHub 上为我们加星并获得专属奖励!
+为 ISEK 加星并加入社区,获取即将推出的功能通知、工作坊信息,并加入我们不断发展的社区,共同探索 AI 协作的未来。
+<a href="https://discord.gg/bZNgVQRm5S"><img src="https://img.shields.io/badge/Discord-加入社区-5865f2?logo=discord&logoColor=white" alt="Discord" /></a>
+<p align="center">
+  <img src="assets/star_gif.gif" alt="ISEK 生态系统概览" width="50%" />
+</p>
 
-## 为什么 ERC-8004 很重要?
-
-ERC-8004 提供了一个去中心化的身份、声誉和验证注册框架，为无需信任的验证和声誉管理奠定了基础。
----
-
-## 🌟 功能亮点
-
-- **🧠 去中心化协作**  
-  使用 ERC-8004 无需信任的智能体合约作为我们的注册中心，我们提供去中心化的身份、声誉和验证服务。智能体可以直接发现伙伴并协作 —— 没有单点故障。
-- **🌐 分布式部署**  
-  智能体所有者可以 100% 在本地运行其智能体，铸造智能体 NFT，并使用智能体钱包来获得完全的所有权和控制权。
-- **🔌 基于 MCP 的智能体发现**  
-  我们的地图服务器连接到智能体发现服务，使用户可以轻松找到智能体。配置一次 MCP 服务，您就可以通过您喜欢的 AI 聊天机器人直接访问智能体。
-- **💻 开发者友好 CLI：**  
-  简洁的命令行界面使智能体的设置、部署和管理变得快速且简单。
-
----
-
+## 资源
+主页: [主页](https://www.isek.xyz/)\
+聊天应用: [聊天应用](https://chatbot.isek.xyz/) (在 [Discord](https://C.gg/PRzG3MSP) 加入 Discord 社区获取激活码)\
+Agent 浏览器: [Agent 浏览器](https://isek-explorer.vercel.app/)
 ## 🚀 快速开始
 
-### 安装
+### 前置要求
+**Python 3.10+** 和 **Node.js 18+** (用于 P2P 功能)
 
+### 安装
 ```bash
+python3 -m venv isek_env && source isek_env/bin/activate
 pip install isek
 isek setup
 ```
 
-### 前置要求
-
-- **Python 3.10+**
-- **Node.js 18+**（用于 P2P 功能）
-
-> 💡 **提示：** `isek setup` 命令会自动处理 Python 和 JavaScript 依赖。
-
-### 设置环境变量
-
-创建 `.env` 文件：
-
-```env
-OPENAI_MODEL_NAME=gpt-4o-mini
-OPENAI_BASE_URL=https://api.openai.com/v1
-OPENAI_API_KEY=your_api_key
+### 托管你的 Agent:
+```python
+node = Node(host="127.0.0.1", port=9999, node_id="openai-agent")
+app = Node.create_server(your_agent_executor, agent_card)
+node.build_server(app, name="OpenAI Agent", daemon=False)
 ```
 
-### 启动智能体
+### 查询你的 Agent:
+```python
+node = Node(host="127.0.0.1", port=8888, node_id="a2a-client")
+message_content = await node.send_message("http://localhost:9999", query)
+```
+
+### P2P 中继设置
+```bash
+isek run relay
+```
+预期输出:
+中继节点已启动。peerId=<your-network-peerId>
+复制你的 peerID,这是你的 Agent 网络 ID
+
+
+### P2P 托管你的 Agent:
+```python
+p2p = A2AProtocolV2(
+    host="127.0.0.1",
+    port=9999,
+    p2p_enabled=True,
+    p2p_server_port=9001,
+    relay_ip=<your-ip>,
+    relay_peer_id=<your-network-peerId>
+)
+p2p.start_p2p_server(wait_until_ready=True)
+```
+
+预期输出:
+| [p2p] server | peer_id=<your-agent-peerId>
+复制你的 peerID,这是你的 Agent 服务器 ID
+
+### P2P 查询你的 Agent:
 
 ```python
-from isek.agent.isek_agent import IsekAgent
-from isek.models.openai import OpenAIModel
-import dotenv
-dotenv.load_dotenv()
-
-agent = IsekAgent(
-    name="My Agent",
-    model=OpenAIModel(model_id="gpt-4o-mini"),
-    description="A helpful assistant",
-    instructions=["Be polite", "Provide accurate information"],
-    success_criteria="User gets a helpful response"
+p2p = A2AProtocolV2(
+    host="127.0.0.1",
+    port=8888,
+    p2p_enabled=True,
+    p2p_server_port=9002,
+    relay_ip=<your-ip>,
+    relay_peer_id=<your-network-peerId>
 )
+p2p.start_p2p_server(wait_until_ready=True)
 
-response = agent.run("hello")
+resp = p2p.send_message(
+    sender_node_id="a2a-client",
+    receiver_peer_id=<your-agent-peerId>,
+    message=query,
+)
 ```
+
+## 支持:
+加入 Discord 并创建支持工单:[Discord](https://C.gg/PRzG3MSP)
+<a href="https://discord.gg/bZNgVQRm5S"><img src="https://img.shields.io/badge/Discord-加入社区-5865f2?logo=discord&logoColor=white" alt="Discord" /></a>
+### 钱包和身份 (可选)
+
+ISEK 现在使用简单的本地钱包管理器和 ERC-8004 身份流程。
+- 钱包默认存储在 `isek/web3/wallet.{NETWORK}.json`。
+- ABI 路径默认为相对路径: `isek/web3/abi/IdentityRegistry.json`。
+- 注册需要你的 Agent 卡提供一个域名(我们将 `url` 视为 `domain`)。
+
+### 注册或解析你的 Agent 身份:
+```python
+from isek.web3.isek_identiey import ensure_identity
+address, agent_id, tx_hash = ensure_identity(your_a2a_agent_card)
+print("wallet:", address, "agent_id:", agent_id, "tx:", tx_hash)
+```
+注意事项:
+- 如果未设置注册表地址或 ABI,该函数将返回你的钱包地址并跳过链上注册。
+- 如果 Agent 已经注册,它将返回现有的 `agent_id` 而不发送交易。
 
 ### 试用示例
 
-在 examples 文件夹中，按照从 level 1 到 level 10 的示例顺序学习，您就能对 ISEK 有很好的了解。
+[A2A Agent 服务器](https://github.com/isekOS/ISEK/blob/main/examples/Agent_servers/Pydantic/openai_agent_a2a.py)\
+[A2A Agent 客户端](https://github.com/isekOS/ISEK/blob/main/examples/Agent_client/a2a_client.py)\
+[P2P Agent 服务器](https://github.com/isekOS/ISEK/blob/main/examples/Agent_servers/Pydantic/openai_agent_a2a_p2p.py)\
+[P2P Agent 客户端](https://github.com/isekOS/ISEK/blob/main/examples/Agent_client/a2a_client_p2p.py)
+
+
+## 演示
+### 在区块链上注册的 Agent
+<p align="left">
+  <img src="assets/blockchain.png" alt="ISEK 生态系统概览" width="50%" />
+</p>
+
+## 🤝 贡献
+
+我们欢迎开发者、研究人员和生态系统合作者!
+* 加入 Discord 获取最新更新: [Discord](https://C.gg/PRzG3MSP)
+* 💬 通过 [GitHub Issues](https://github.com/your-repo/issues) 提交问题或建议
+* 📧 直接联系我们: [team@isek.xyz](mailto:team@isek.xyz)
+* 📄 查看我们的 [贡献指南](CONTRIBUTING.md)
 
 ---
 
-## 🧪 CLI 命令
-
-```bash
-isek setup       # 安装 Python 和 JavaScript 依赖
-isek clean       # 清理临时文件
-isek --help      # 查看可用命令
-```
-
----
-
-## 🧱 项目结构
-
-```
-isek/
-├── examples                   # Isek 使用示例脚本
-├── isek                       # 核心功能模块
-│   ├── agent                  # Agent 的逻辑与行为定义
-│   ├── node                   # 节点编排
-│   ├── protocol               # Agent 间通信的协议层
-│   ├── memory                 # Agent 的上下文与状态管理
-│   ├── models                 # LLM 后端模型接口
-│   ├── team                   # 多 Agent 组织结构接口
-│   ├── tools                  # Agent 可调用的工具库
-│   ├── utils                  # 通用工具函数
-│   ├── cli.py                 # 命令行入口
-│   └── isek_center.py         # 本地注册中心与协调服务
-├── docs/                      # 文档
-└── README.md                  # 项目简介与文档入口
-```
-
----
-
-## 🌟 给我们 Star 吧 😉
-
-<img src="assets/star_gif.gif" alt="hippo" width="250"/>
-
----
-
-## 🤝 贡献方式
-
-我们欢迎开发者、研究人员和早期使用者的加入！
-
-* 💬 通过 [GitHub Issues](https://github.com/your-repo/issues) 提出建议或反馈问题
-* 📧 直接联系我们：[team@isek.xyz](mailto:team@isek.xyz)
-* 📄 查阅我们的 [贡献指南](CONTRIBUTING.md)
-
----
-
-## 📜 开源协议
-
-本项目采用 [MIT License](LICENSE) 开源。
-
----
-## ⚠️ 法律声明
-
-ISEK 是一个开源、无许可的技术框架，旨在支持去中心化智能体协作系统的构建。  
-本项目的贡献者不运营、控制或监控任何已部署的智能体或其行为。  
-使用本项目即表示您将为自己的行为承担全部责任。详情请参阅 [LEGAL.md](./LEGAL.md)。
-
----
 <p align="center">
   Made with ❤️ by the <strong>Isek Team</strong><br />
-  <em>Autonomy is not isolation. It's cooperation, at scale.</em>
+  <em>Agent Autonomy = Cooperation + Scale</em>
 </p>
